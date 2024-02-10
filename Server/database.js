@@ -28,7 +28,7 @@ async function login(username, password){
         const connection = await connectToDatabase();
     
         // Query to check login credentials
-        const query = 'SELECT * FROM quanlithuvien.taikhoan WHERE username = username AND password = password';
+        const query = 'SELECT * FROM quanlithuvien.taikhoan WHERE username = ? AND password = ?';
     
         // Execute the query with parameters
         const [rows, fields] = await connection.execute(query, [username, password]);
@@ -36,9 +36,9 @@ async function login(username, password){
         // Check if any rows were returned
         const loginSuccessful = rows.length > 0;
     
-        // Close the connection when done
-        await connection.end();
-        console.log('Connection closed');
+        // // Close the connection when done
+        // await connection.end();
+        // console.log('Connection closed');
     
         return loginSuccessful;
     } catch (error) {
