@@ -17,6 +17,9 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+import android.os.Handler;
+import android.os.Looper;
+
 
 public class WebSocketClient extends WebSocketListener {
 
@@ -67,6 +70,11 @@ public class WebSocketClient extends WebSocketListener {
     }
     //endregion
 
+    private void runOnUiThread(Runnable runnable) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+    }
+
     //region Override Methods
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
@@ -78,11 +86,14 @@ public class WebSocketClient extends WebSocketListener {
         super.onMessage(webSocket, text);
         Log.d("WebSocket", "Received message: " + text);
         // Handle received text message
-        try {
-            handlerEvent(text);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        // Handle received text message on the main thread
+        runOnUiThread(() -> {
+            try {
+                handlerEvent(text);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override

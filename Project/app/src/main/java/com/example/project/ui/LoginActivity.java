@@ -14,6 +14,7 @@ import com.example.project.R;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
 import com.example.project.utils.Constants;
+import com.example.project.utils.PopupUtils;
 import com.example.project.utils.UIService;
 
 import org.json.JSONException;
@@ -54,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
         else{
-            Toast.makeText(LoginActivity.this, "Username or Password is incorrect!!!", Toast.LENGTH_LONG).show();
+            PopupUtils.showPopup(this, "Login Result Notification", "Login attempt failed. Please check your credentials and try again.", Constants.TYPE_ALERT.OK, null, null);
         }
     }
 }
