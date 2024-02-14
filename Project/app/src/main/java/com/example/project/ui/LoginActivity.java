@@ -14,6 +14,7 @@ import com.example.project.R;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
 import com.example.project.utils.Constants;
+import com.example.project.utils.LoadingDialog;
 import com.example.project.utils.PopupUtils;
 import com.example.project.utils.UIService;
 
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
 
         // Now you can find the views and set onClickListener
         findViewById(R.id.btnSubmit).setOnClickListener(view -> {
+            LoadingDialog.getInstance(this).show();
+
             JSONObject loginObject = new JSONObject();
             try {
                 // Corrected casting to EditText
@@ -51,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
 
     @Override
     public void onLoginResult(boolean result) {
+        //LoadingDialog.getInstance(this).hide();
         if(result){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
