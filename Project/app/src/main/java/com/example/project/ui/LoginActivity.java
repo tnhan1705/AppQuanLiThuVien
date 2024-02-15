@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
 
     @Override
     public void onLoginResult(boolean result) {
-        //LoadingDialog.getInstance(this).hide();
+        LoadingDialog.getInstance(this).hide();
         if(result){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
