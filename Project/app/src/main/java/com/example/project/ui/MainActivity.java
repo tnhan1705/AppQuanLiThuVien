@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIService.HideStatusBar(this, this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_admin);
 
         // Set up NavController and AppBarConfiguration
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
