@@ -6,6 +6,7 @@ public class Constants {
 
     // events handlers
     public static final String EVENT_LOGIN = "login";
+    public static final String EVENT_GET_DATA = "getData";
 
     // log type tag
     public static final String TAG_WEBSOCKET = "Websocket";

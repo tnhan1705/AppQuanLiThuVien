@@ -47,5 +47,43 @@ async function login(username, password){
     }
 }
 
+async function getAllBooks() {
+  try {
+    // Connect to the database
+    const connection = await connectToDatabase();
+
+    // Query to get all rows from the 'sach' table
+    const query = 'SELECT * FROM quanlithuvien.sach';
+
+    // Execute the query
+    const [rows, fields] = await connection.execute(query);
+
+    // Return the result
+    return rows;
+  } catch (error) {
+    console.error('An error occurred while getting all books:', error.message);
+    throw error;
+  }
+}
+
+async function getAllReceipts() {
+  try {
+    // Connect to the database
+    const connection = await connectToDatabase();
+
+    // Query to get all rows from the 'sach' table
+    const query = 'SELECT * FROM quanlithuvien.phieu';
+
+    // Execute the query
+    const [rows, fields] = await connection.execute(query);
+
+    // Return the result
+    return rows;
+  } catch (error) {
+    console.error('An error occurred while getting all receipt:', error.message);
+    throw error;
+  }
+}
+
 // Export the connectToDatabase function
-module.exports = { connectToDatabase, login };
+module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts };

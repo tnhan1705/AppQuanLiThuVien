@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.SocketHandler;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,8 +60,10 @@ public class WebSocketClient extends WebSocketListener {
         String event = (String) data.get("event");
         switch (event){
             case Constants.EVENT_LOGIN:
-                boolean resultLogin = Boolean.parseBoolean((String) data.get("result"));
-                _listener.onLoginResult(resultLogin);
+                _listener.onLoginResponse(Boolean.parseBoolean((String) data.get("result")));
+                break;
+            case Constants.EVENT_GET_DATA:
+                _listener.onGetDataResponse((String) data.get("data"));
                 break;
             default:
                 break;

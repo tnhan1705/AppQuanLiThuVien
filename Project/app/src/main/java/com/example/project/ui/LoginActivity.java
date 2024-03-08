@@ -10,16 +10,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.project.DataManager;
 import com.example.project.R;
+import com.example.project.entities.DataResponse;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
 import com.example.project.utils.Constants;
+import com.example.project.utils.ConvertService;
 import com.example.project.utils.LoadingDialog;
 import com.example.project.utils.PopupUtils;
 import com.example.project.utils.UIService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity implements SocketEventListener {
     @Override
@@ -53,13 +57,30 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
     }
 
     @Override
-    public void onLoginResult(boolean result) {
-        LoadingDialog.getInstance(this).hide();
+    public void onLoginResponse(boolean result) throws JSONException {
         if(result){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            GetAllData();
         }
         else{
+            LoadingDialog.getInstance(this).hide();
             PopupUtils.showPopup(this, "Login Result Notification", "Login attempt failed. Please check your credentials and try again.", Constants.TYPE_ALERT.OK, null, null);
         }
+    }
+
+    @Override
+    public void onGetDataResponse(String data) {
+        Gson gson = new Gson();
+        DataResponse dataResponse = gson.fromJson(data, DataResponse.class);
+        DataManager.getInstance().UpdateData(dataResponse);
+        LoadingDialog.getInstance(this).hide();
+        Log.d("WebSocket", "Received all data success");
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    void GetAllData() throws JSONException {
+        JSONObject loginObject = new JSONObject();
+        loginObject.put("event", Constants.EVENT_GET_DATA);
+        String mess = loginObject.toString();
+        WebSocketClient.getInstance().requestToServer(mess, this);
     }
 }
