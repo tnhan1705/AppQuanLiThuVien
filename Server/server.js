@@ -20,6 +20,7 @@ wss.on('connection', (ws) => {
           break;
         case EVENT.GET_DATA:
           handleGetData(ws, data.username)
+          break;
         default:
           console.log(LOG_TYPE.ERROR + `Unhandled event: ${data.event}`);
       }

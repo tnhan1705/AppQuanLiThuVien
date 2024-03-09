@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.project.DataManager;
 import com.example.project.R;
 import com.example.project.entities.Book;
+import com.example.project.ui.home.HomeFragment;
+
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,10 +45,19 @@ public class FragmentAll extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all, container, false);
+        View view = inflater.inflate(R.layout.sub_fragment_all, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         listView = view.findViewById(R.id.listView);
         adapter = new CustomBookAdapter(requireContext(), R.layout.list_item_book);
+        adapter.setOnSelectButtonClickListener(new OnSelectButtonClickListener(){
+
+            @Override
+            public void onSelectButtonClick() {
+                Button myButton = rootView.findViewById(R.id.myButton);
+                myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
+            }
+        });
 
         // Assuming DataManager.getInstance().getBooks() returns an array of Book objects
         Book[] books = DataManager.getInstance().getBooks();

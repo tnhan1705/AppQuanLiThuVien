@@ -4,6 +4,9 @@ import com.example.project.entities.Book;
 import com.example.project.entities.DataResponse;
 import com.example.project.entities.Receipt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +18,8 @@ public class DataManager {
 
     private Book[] books;
     private Receipt[] receipts;
+
+    private List<Book> booksSelect = new ArrayList<>();
 
     private DataManager() {
 
@@ -38,5 +43,9 @@ public class DataManager {
 
     public Receipt[] getReceipts() {
         return receipts;
+    }
+
+    public List<Book> getBooksSelect() {
+        return booksSelect;
     }
 }
