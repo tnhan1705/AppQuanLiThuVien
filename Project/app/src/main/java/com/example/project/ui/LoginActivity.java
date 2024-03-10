@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                 String mess = loginObject.toString();
 
                 WebSocketClient.getInstance().requestToServer(mess, this);
-                Toast.makeText(LoginActivity.this, String.format("%s Try to Login", editUsername.getText().toString()), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }

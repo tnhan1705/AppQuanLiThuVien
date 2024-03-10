@@ -11,4 +11,5 @@
     // Custom for me
     <color name="main">#FF8A5C</color>
     <color name="disable">#565E6C</color>
+    <color name="itemSelected">#AFDFFF</color>
 </resources>

@@ -24,7 +24,6 @@ import android.widget.Button;
  * create an instance of this fragment.
  */
 public class FragmentAll extends Fragment {
-
     private ListView listView;
     private CustomBookAdapter adapter;
 
@@ -48,13 +47,15 @@ public class FragmentAll extends Fragment {
         View view = inflater.inflate(R.layout.sub_fragment_all, container, false);
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Button myButton = getParentFragment().getView().findViewById(R.id.myButton);
+        myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
+
         listView = view.findViewById(R.id.listView);
         adapter = new CustomBookAdapter(requireContext(), R.layout.list_item_book);
         adapter.setOnSelectButtonClickListener(new OnSelectButtonClickListener(){
 
             @Override
             public void onSelectButtonClick() {
-                Button myButton = rootView.findViewById(R.id.myButton);
                 myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
             }
         });
