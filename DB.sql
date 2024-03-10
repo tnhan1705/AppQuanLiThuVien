@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `phieu`
+--
+
+DROP TABLE IF EXISTS `phieu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `phieu` (
+  `id` varchar(10) NOT NULL,
+  `id_book` varchar(10) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'Borrowing',
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `date_start` datetime NOT NULL,
+  `date_return` datetime NOT NULL,
+  PRIMARY KEY (`id`,`id_book`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `phieu`
 --
 
@@ -24,6 +46,23 @@ LOCK TABLES `phieu` WRITE;
 INSERT INTO `phieu` VALUES ('001','001','Borrowing','John','Doe','Male','john.doe@example.com','123-456-7890','2024-03-08 10:00:00','2024-03-15 10:00:00'),('002','002','Borrowing','Jane','Smith','Female','jane.smith@example.com','987-654-3210','2024-03-10 12:00:00','2024-03-17 12:00:00'),('003','003','Borrowing','Bob','Johnson','Male','bob.johnson@example.com','555-123-4567','2024-03-12 15:00:00','2024-03-19 15:00:00'),('004','004','Borrowing','Alice','Williams','Female','alice.williams@example.com','777-888-9999','2024-03-14 08:00:00','2024-03-21 08:00:00'),('005','005','Borrowing','Charlie','Brown','Male','charlie.brown@example.com','333-444-5555','2024-03-16 18:00:00','2024-03-23 18:00:00');
 /*!40000 ALTER TABLE `phieu` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `sach`
+--
+
+DROP TABLE IF EXISTS `sach`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sach` (
+  `id` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `summary` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_author` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `inventory_quantity` int DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sach`
@@ -36,6 +75,22 @@ INSERT INTO `sach` VALUES ('001','The Great Gatsby','Classic novel about the Ame
 UNLOCK TABLES;
 
 --
+-- Table structure for table `taikhoan`
+--
+
+DROP TABLE IF EXISTS `taikhoan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `taikhoan` (
+  `id` varchar(10) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `taikhoan`
 --
 
@@ -44,6 +99,18 @@ LOCK TABLES `taikhoan` WRITE;
 INSERT INTO `taikhoan` VALUES ('plk2j3hf45','duy','123');
 /*!40000 ALTER TABLE `taikhoan` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `test`
+--
+
+DROP TABLE IF EXISTS `test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `test` (
+  `image` mediumblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `test`
@@ -64,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-10  9:20:19
+-- Dump completed on 2024-03-10  9:26:04
