@@ -9,11 +9,18 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.example.project.entities.Book;
 import com.example.project.ui.subFragments.FragmentAll;
 import com.example.project.ui.subFragments.FragmentBorrowing;
+import com.example.project.utils.Constants;
+
+import java.util.Dictionary;
+import java.util.Map;
 
 public class SubFragmentAdapter extends FragmentPagerAdapter {
 
-    public SubFragmentAdapter(FragmentManager fm) {
+    private Constants.MODE_SUB_TABS modeSubTabs;
+
+    public SubFragmentAdapter(FragmentManager fm, Constants.MODE_SUB_TABS modeSubTabs) {
         super(fm);
+        this.modeSubTabs = modeSubTabs;
     }
 
     @NonNull
@@ -21,9 +28,16 @@ public class SubFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FragmentAll();
+                if(modeSubTabs == Constants.MODE_SUB_TABS.HOME)
+                    return new FragmentAll();
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return new FragmentBorrowing();
             case 1:
-                return new FragmentBorrowing();
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return new FragmentReturned();
+            case 2:
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return new FragmentCanceled();
             default:
                 return null;
         }
@@ -31,13 +45,30 @@ public class SubFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        if(modeSubTabs == Constants.MODE_SUB_TABS.HOME)
+            return 1;
+        if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+            return 3;
+        return 0;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        // Set tab titles if needed
-        return "Tab " + (position + 1);
+        switch (position) {
+            case 0:
+                if(modeSubTabs == Constants.MODE_SUB_TABS.HOME)
+                    return "All";
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return "Borrow";
+            case 1:
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return "Returned";
+            case 2:
+                if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
+                    return "Canceled";
+            default:
+                return "";
+        }
     }
 
 }

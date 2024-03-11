@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 3500, host: '0.0.0.0' });
+var clients = new Set(); // Maintain a set of connected clients
 
 // require func database
 const { connectToDatabase, login, getAllBooks, getAllReceipts } = require('./database');
@@ -9,7 +10,7 @@ const { connectToDatabase, login, getAllBooks, getAllReceipts } = require('./dat
 const { LOG_TYPE, EVENT } = require('./constant');
 
 wss.on('connection', (ws) => {
-
+  clients.add(ws);
   ws.on('message', (message) => {
     try {
       const data = JSON.parse(message);

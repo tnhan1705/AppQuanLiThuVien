@@ -17,12 +17,11 @@ import com.example.project.R;
 import com.example.project.databinding.FragmentHomeBinding;
 import com.example.project.ui.subFragments.FragmentAll;
 import com.example.project.ui.subFragments.SubFragmentAdapter;
+import com.example.project.utils.Constants;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
-    private HomeViewModel homeViewModel;
 
     @Nullable
     @Override
@@ -30,14 +29,11 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         // Initialize TabLayout and ViewPager
         TabLayout tabLayout = binding.tabLayout;
         ViewPager viewPager = binding.viewPager;
 
-        // Set up the ViewPager with the sections adapter.
-        viewPager.setAdapter(new SubFragmentAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(new SubFragmentAdapter(getChildFragmentManager(), Constants.MODE_SUB_TABS.HOME));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabTextColors(
                 getResources().getColorStateList(R.color.disable).getDefaultColor(), // Unselected color

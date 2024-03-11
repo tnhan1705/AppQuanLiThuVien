@@ -14,5 +14,10 @@ public class Constants {
     public enum TYPE_ALERT{
         OK, OK_CANCEL, TRYAGAIN_CANCEL
     }
+
+    public enum MODE_SUB_TABS{
+        HOME,
+        NOTE,
+    }
 }
 

@@ -60,7 +60,8 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataManager.getInstance().getBooksSelect().add(book);
+                if(!selectedItems.get(position)) DataManager.getInstance().getBooksSelect().add(book);
+                else DataManager.getInstance().getBooksSelect().remove(book);
                 onSelectButtonClickListener.onSelectButtonClick();
 
                 // Đảo ngược trạng thái của mục
@@ -69,6 +70,7 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
                 // Thay đổi màu nền của list_item_book
                 int backgroundColor = selectedItems.get(position) ? ContextCompat.getColor(getContext(), R.color.itemSelected) : Color.WHITE;
                 finalConvertView.setBackgroundColor(backgroundColor);
+                button.setImageDrawable(selectedItems.get(position) ? ContextCompat.getDrawable(getContext(), R.drawable.tick_added) : ContextCompat.getDrawable(getContext(), R.drawable.button2));
             }
         });
 
