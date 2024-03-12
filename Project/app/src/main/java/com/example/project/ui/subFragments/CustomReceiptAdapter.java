@@ -67,7 +67,7 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         txtName.setText(receipt.getBookByID().name);
         txtAuthorName.setText(receipt.getBookByID().name_author);
         txtBorrowerName.setText(receipt.first_name + receipt.last_name);
-        txtTimeStart.setText(receipt.date_start.toString());
+        txtTimeStart.setText("Start: " + receipt.date_start.toString());
 
         Button button = convertView.findViewById(R.id.btnSelect);
 
