@@ -1,6 +1,7 @@
 package com.example.project.ui.subFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.example.project.DataManager;
 import com.example.project.R;
 import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
+import com.example.project.ui.DetailReceiptActivity;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -75,7 +77,11 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Context context = view.getContext();
 
+                // Start the new activity
+                Intent intent = new Intent(context, DetailReceiptActivity.class);
+                context.startActivity(intent);
             }
         });
 
