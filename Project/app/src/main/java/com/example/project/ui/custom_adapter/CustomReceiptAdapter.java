@@ -1,4 +1,4 @@
-package com.example.project.ui.subFragments;
+package com.example.project.ui.custom_adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.example.project.R;
 import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
 import com.example.project.ui.DetailReceiptActivity;
+import com.example.project.ui.subFragments.OnSelectButtonClickListener;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -81,6 +82,7 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
 
                 // Start the new activity
                 Intent intent = new Intent(context, DetailReceiptActivity.class);
+                intent.putExtra("receipt", receipt);
                 context.startActivity(intent);
             }
         });

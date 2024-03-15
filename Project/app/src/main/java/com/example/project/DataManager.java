@@ -7,10 +7,8 @@ import com.example.project.entities.Receipt;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.var;
 
 @AllArgsConstructor
 public class DataManager {
@@ -32,6 +30,15 @@ public class DataManager {
         return instance;
     }
 
+    public Book getBookByID(String id){
+        for (Book book : books) {
+            if(book.id.equals(id)){
+                return book;
+            }
+        }
+        return null;
+    }
+
     public void UpdateData(DataResponse dataResponse){
         this.books = dataResponse.getBooks();
         this.receipts = dataResponse.getReceipts();
@@ -39,6 +46,10 @@ public class DataManager {
 
     public Book[] getBooks() {
         return books;
+    }
+
+    public void addBookSelect(Book book){
+        booksSelect.add(book);
     }
 
     public Receipt[] getReceipts() {

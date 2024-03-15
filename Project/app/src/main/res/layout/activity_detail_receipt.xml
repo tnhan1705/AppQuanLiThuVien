@@ -17,12 +17,13 @@
         android:layout_marginBottom="20dp">
 
         <ImageButton
+            android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:layout_marginTop="15dp"
         android:layout_marginStart="10dp"
-        android:src="@drawable/button_back"/>
+        android:src="@drawable/button_back" />
 
         <TextView
             android:layout_width="match_parent"
@@ -200,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="100dp"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -246,7 +247,151 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_marginTop="40dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    android:text="Contact Details"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From"
+                        android:fontFamily="@font/inter_bold"
+                        android:textSize="15dp"
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/editDateFrom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ip"
+                            android:digits="0123456789/"
+                            android:fontFamily="@font/inter_medium"
+                            android:hint="yyyy/mm/dd"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:paddingStart="50dp"
+                            android:paddingEnd="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#BCC1CA"
+                            android:textSize="15dp" />
+
+                        <ImageView
+                            android:id="@+id/btnDateFrom"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@drawable/icon_calendar"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To"
+                        android:fontFamily="@font/inter_bold"
+                        android:textSize="15dp"
+                        android:textColor="@color/black" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/editDateTo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ip"
+                            android:digits="0123456789/"
+                            android:fontFamily="@font/inter_medium"
+                            android:hint="yyyy/mm/dd"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:paddingStart="50dp"
+                            android:paddingEnd="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="#BCC1CA"
+                            android:textSize="15dp" />
+
+                        <ImageView
+                            android:id="@+id/btnDateTo"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@drawable/icon_calendar"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentStart="true" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/btnCancel"
+                            android:layout_width="150dp"
+                            android:layout_height="70dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Cancel"
+                            android:layout_marginEnd="20dp"/>
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            android:layout_width="150dp"
+                            android:layout_height="70dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="Submit"/>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnMarkReturn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="Submit"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -1,10 +1,12 @@
 package com.example.project.entities;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class Book {
+public class Book implements Serializable {
     public String id;
     public String name;
     public String summary;

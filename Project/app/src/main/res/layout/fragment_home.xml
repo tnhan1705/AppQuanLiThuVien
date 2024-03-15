@@ -62,8 +62,8 @@
         tools:ignore="MissingConstraints" />
 
 
-    <ImageView
-        android:id="@+id/imageViewRight"
+    <ImageButton
+        android:id="@+id/btnScan"
         android:layout_width="50dp"
         android:background="@android:color/white"
         android:layout_height="50dp"

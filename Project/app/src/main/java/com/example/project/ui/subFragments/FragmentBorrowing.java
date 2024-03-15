@@ -11,8 +11,8 @@ import android.widget.ListView;
 
 import com.example.project.DataManager;
 import com.example.project.R;
-import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
+import com.example.project.ui.custom_adapter.CustomReceiptAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

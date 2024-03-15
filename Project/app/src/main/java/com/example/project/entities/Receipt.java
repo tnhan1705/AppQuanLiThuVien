@@ -2,6 +2,7 @@ package com.example.project.entities;
 
 import com.example.project.DataManager;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Optional;
@@ -9,7 +10,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class Receipt {
+public class Receipt implements Serializable {
     public String id;
     public String id_book;
     public String status;
@@ -22,6 +23,7 @@ public class Receipt {
     public Timestamp date_return;
 
     public Book book;
+
     public Book getBookByID(){
         if(book != null) return book;
         Optional<Book> result = Arrays.stream(DataManager.getInstance().getBooks())

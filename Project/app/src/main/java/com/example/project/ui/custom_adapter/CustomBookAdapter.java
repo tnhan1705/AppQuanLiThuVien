@@ -1,4 +1,4 @@
-package com.example.project.ui.subFragments;
+package com.example.project.ui.custom_adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.example.project.DataManager;
 import com.example.project.R;
 import com.example.project.entities.Book;
+import com.example.project.ui.subFragments.OnSelectButtonClickListener;
 
 // CustomBookAdapter.java
 public class CustomBookAdapter extends ArrayAdapter<Book> {
@@ -40,8 +41,21 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_book, parent, false);
         }
 
+        ImageButton button = convertView.findViewById(R.id.buttonAdd);
+
+        View finalConvertView = convertView;
+
         // Get the current Book object
         Book book = getItem(position);
+        if(DataManager.getInstance().getBooksSelect().contains(book)){
+            // Đảo ngược trạng thái của mục
+            selectedItems.put(position, !selectedItems.get(position));
+
+            // Thay đổi màu nền của list_item_book
+            int backgroundColor = selectedItems.get(position) ? ContextCompat.getColor(getContext(), R.color.itemSelected) : Color.WHITE;
+            finalConvertView.setBackgroundColor(backgroundColor);
+            button.setImageDrawable(selectedItems.get(position) ? ContextCompat.getDrawable(getContext(), R.drawable.tick_added) : ContextCompat.getDrawable(getContext(), R.drawable.button2));
+        }
 
         // Set the data to the views in the list item layout
         TextView itemTextView = convertView.findViewById(R.id.textName);
@@ -54,9 +68,6 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
             itemTextView2.setText(book.summary);
         }
 
-        ImageButton button = convertView.findViewById(R.id.buttonAdd);
-
-        View finalConvertView = convertView;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

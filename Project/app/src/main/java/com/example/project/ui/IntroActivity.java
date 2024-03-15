@@ -36,32 +36,6 @@ public class IntroActivity extends AppCompatActivity {
                 startActivity(new Intent(IntroActivity.this, LoginActivity.class));
             }
         });
-//        btnScan = findViewById(R.id.btnScan);
-//        btnScan.setOnClickListener(v -> {
-//            scanCode();
-//        });
     }
 
-    void scanCode(){
-        ScanOptions options = new ScanOptions();
-        options.setPrompt("Volume up to flash on");
-        options.setBeepEnabled(true);
-        options.setOrientationLocked(true);
-        options.setCaptureActivity(CaptureAct.class);
-        barLaucher.launch(options);
-    }
-
-    ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result -> {
-        if(result.getContents() != null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(IntroActivity.this);
-            builder.setTitle("Result");
-            builder.setMessage(result.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
-        }
-    });
 }
