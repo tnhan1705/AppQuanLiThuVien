@@ -17,9 +17,9 @@ public class DataManager {
     public String username;
 
     private Book[] books;
-    private Receipt[] receipts;
+    public Receipt[] receipts;
 
-    private List<Book> booksSelect = new ArrayList<>();
+    public List<Book> booksSelect = new ArrayList<>();
 
     private DataManager() {
 
@@ -61,5 +61,6 @@ public class DataManager {
     public List<Book> getBooksSelect() {
         return booksSelect;
     }
+
 
 }
