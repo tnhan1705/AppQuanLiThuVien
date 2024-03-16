@@ -25,13 +25,16 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
     private OnSelectButtonClickListener onSelectButtonClickListener;
     private SparseBooleanArray selectedItems;
 
+    boolean isModeSelect;
+
     public void setOnSelectButtonClickListener(OnSelectButtonClickListener listener) {
         this.onSelectButtonClickListener = listener;
     }
 
-    public CustomBookAdapter(Context context, int resource) {
+    public CustomBookAdapter(Context context, int resource, boolean isModeSelect) {
         super(context, resource);
         selectedItems = new SparseBooleanArray();
+        this.isModeSelect = isModeSelect;
     }
 
     @NonNull
@@ -47,7 +50,7 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
 
         // Get the current Book object
         Book book = getItem(position);
-        if(DataManager.getInstance().getBooksSelect().contains(book)){
+        if(DataManager.getInstance().getBooksSelect().contains(book) && isModeSelect){
             // Đảo ngược trạng thái của mục
             selectedItems.put(position, !selectedItems.get(position));
 
@@ -55,6 +58,9 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
             int backgroundColor = selectedItems.get(position) ? ContextCompat.getColor(getContext(), R.color.itemSelected) : Color.WHITE;
             finalConvertView.setBackgroundColor(backgroundColor);
             button.setImageDrawable(selectedItems.get(position) ? ContextCompat.getDrawable(getContext(), R.drawable.tick_added) : ContextCompat.getDrawable(getContext(), R.drawable.button2));
+        }
+        else if(!isModeSelect){
+            button.setVisibility(View.GONE);
         }
 
         // Set the data to the views in the list item layout

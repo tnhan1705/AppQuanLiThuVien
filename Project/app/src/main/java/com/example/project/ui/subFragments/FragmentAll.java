@@ -51,7 +51,7 @@ public class FragmentAll extends Fragment {
         myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
 
         listView = view.findViewById(R.id.listView);
-        adapter = new CustomBookAdapter(requireContext(), R.layout.list_item_book);
+        adapter = new CustomBookAdapter(requireContext(), R.layout.list_item_book, true);
         adapter.setOnSelectButtonClickListener(new OnSelectButtonClickListener(){
 
             @Override

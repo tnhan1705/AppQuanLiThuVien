@@ -67,8 +67,8 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         long hours = Math.abs(duration.toHours() % 24);
         txtStatus.setText((receipt.date_return.after(now) ? "Remain: " : "Expired: ") + (days > 0 ? days + " days" : hours + " hours"));
 
-        txtName.setText(receipt.getBookByID().name);
-        txtAuthorName.setText(receipt.getBookByID().name_author);
+        txtName.setText(receipt.getBooksByIDs()[0].name);
+        txtAuthorName.setText(receipt.getBooksByIDs()[0].name_author);
         txtBorrowerName.setText(receipt.first_name + receipt.last_name);
         txtTimeStart.setText("Start: " + receipt.date_start.toString());
 

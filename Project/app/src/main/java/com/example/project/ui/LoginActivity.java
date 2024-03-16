@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                 EditText editUsername = (EditText)findViewById(R.id.editUsername);
                 EditText editPassword = (EditText)findViewById(R.id.editPassword);
 
+                DataManager.getInstance().username = editUsername.getText().toString();
+
                 loginObject.put("event", Constants.EVENT_LOGIN);
                 loginObject.put("username", editUsername.getText().toString());
                 loginObject.put("password", editPassword.getText().toString());
@@ -76,9 +78,15 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
+    @Override
+    public void onOrderResponse(boolean result) {
+
+    }
+
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();
         loginObject.put("event", Constants.EVENT_GET_DATA);
+        loginObject.put("username", DataManager.getInstance().username);
         String mess = loginObject.toString();
         WebSocketClient.getInstance().requestToServer(mess, this);
     }

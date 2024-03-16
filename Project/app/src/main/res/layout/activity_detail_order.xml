@@ -9,18 +9,18 @@
     android:orientation="vertical"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    tools:context=".ui.DetailReceiptActivity">
+    tools:context=".ui.DetailOrderActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp">
 
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:background="@color/white"
             android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
@@ -103,6 +103,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_bold"
@@ -112,16 +113,375 @@
         android:text="Books Infomation"/>
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/list_book_review"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:divider="@android:color/darker_gray"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:visibility="visible"
+        android:dividerHeight="1dp"/>
+
+    <ScrollView
+        android:id="@+id/borrower_info"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:layout_height="550dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                android:text="Basic Information"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First Name"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edit_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter text here"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="15dp"
+                    android:textColorHint="#BCC1CA"
+                    android:textColor="@color/black"
+                    android:background="@drawable/ip"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Name"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edit_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter text here"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="15dp"
+                    android:textColorHint="#BCC1CA"
+                    android:textColor="@color/black"
+                    android:background="@drawable/ip"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/genderRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/maleRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:text="Male"
+                    android:layout_marginEnd="15dp" />
+
+                <RadioButton
+                    android:id="@+id/femaleRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="15dp"
+                    android:text="Female" />
+
+                <RadioButton
+                    android:id="@+id/nonBinaryRadioButton"
+                    android:layout_width="wrap_content"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:text="Non-Binary" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                android:text="Contact Details"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Email"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter text here"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textSize="15dp"
+                    android:textColorHint="#BCC1CA"
+                    android:textColor="@color/black"
+                    android:background="@drawable/ip"
+                    android:inputType="textEmailAddress" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="100dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Phone"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edit_phone1"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:hint="+ 32"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:textColorHint="#BCC1CA"
+                        android:textColor="@color/black"
+                        android:background="@drawable/ip_small"
+                        android:layout_marginEnd="15dp"
+                        android:inputType="phone"
+                        android:digits="0123456789+"/>
+
+                    <EditText
+                        android:id="@+id/edit_phone2"
+                        android:layout_width="278dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter text here"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:textSize="15dp"
+                        android:textColorHint="#BCC1CA"
+                        android:textColor="@color/black"
+                        android:background="@drawable/ip_medium"
+                        android:inputType="phone"
+                        android:digits="0123456789"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/time_info"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp"
+            android:text="Contact Details"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txt_date_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ip_disable"
+                    android:digits="0123456789/"
+                    android:fontFamily="@font/inter_medium"
+                    android:hint="yyyy/mm/dd"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="9dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BCC1CA"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:id="@+id/btnDateFrom"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/icon_calendar"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/editDateTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ip"
+                    android:digits="0123456789/"
+                    android:fontFamily="@font/inter_medium"
+                    android:hint="yyyy/mm/dd"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BCC1CA"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:id="@+id/btnDateTo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/icon_calendar"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_item_book"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:divider="@android:color/darker_gray"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
         android:dividerHeight="1dp"/>
 
     <RelativeLayout
+        android:id="@+id/region_next"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -136,11 +496,30 @@
             android:text="$ 800"/>
 
         <Button
+            android:id="@+id/btn_next"
             android:layout_width="150dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="200dp"
             android:fontFamily="@font/inter_bold"
             android:text="Next"
+            android:layout_height="60dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/region_submit"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Confirm"
             android:layout_height="60dp"/>
 
     </RelativeLayout>

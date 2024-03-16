@@ -36,11 +36,10 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/list_item_receipt" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,6 +48,14 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/container_items_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

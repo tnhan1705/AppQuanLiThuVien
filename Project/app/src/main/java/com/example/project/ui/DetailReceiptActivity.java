@@ -10,11 +10,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.project.DataManager;
 import com.example.project.R;
+import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
 import com.example.project.utils.UIService;
 
@@ -23,6 +26,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
+import android.view.LayoutInflater;
+
 
 public class DetailReceiptActivity extends AppCompatActivity {
 
@@ -46,30 +51,29 @@ public class DetailReceiptActivity extends AppCompatActivity {
         // Nhận Intent từ hoạt động trước
         Intent intent = getIntent();
 
+        LinearLayout container = findViewById(R.id.container_items_book);
+        LayoutInflater inflater = LayoutInflater.from(this); // Tạo LayoutInflater
+
         // Kiểm tra xem Intent có dữ liệu không
         if (intent.hasExtra("receipt")) {
             Receipt receipt = (Receipt) intent.getSerializableExtra("receipt");
-            View includedLayout = findViewById(R.id.container); // R.id.container is the ID of the parent layout in DetailReceiptActivity
+            Book[] books = receipt.getBooksByIDs();
 
-            TextView txtName = includedLayout.findViewById(R.id.textName);
-            TextView txtAuthorName = includedLayout.findViewById(R.id.textAuthorName);
-            TextView txtBorrowerName = includedLayout.findViewById(R.id.textBorrowerName);
-            TextView txtTimeStart = includedLayout.findViewById(R.id.textTimeStart);
-            TextView txtStatus = includedLayout.findViewById(R.id.textStatus);
+            for (int i = 0; i < books.length; i++) { // Số lượng item bạn muốn chèn
+                View itemView = inflater.inflate(R.layout.list_item_book_review, null); // Inflate layout của mỗi item
+                // Thực hiện các thay đổi cần thiết trên itemView, như đặt dữ liệu, sự kiện, v.v.
+                // Ví dụ:
+                TextView name_book = itemView.findViewById(R.id.name_book);
+                TextView author_name = itemView.findViewById(R.id.author_name);
+                TextView summary = itemView.findViewById(R.id.summary);
 
-            Timestamp now =  new Timestamp(System.currentTimeMillis());
-            txtStatus.setTextColor(receipt.date_return.after(now) ? Color.parseColor("#1DD75B") : Color.parseColor("#DE3B40"));
-            LocalDateTime dateReturnLocalDateTime = receipt.date_return.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            LocalDateTime nowLocalDateTime = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            Duration duration = Duration.between(dateReturnLocalDateTime, nowLocalDateTime);
-            long days = Math.abs(duration.toDays());
-            long hours = Math.abs(duration.toHours() % 24);
-            txtStatus.setText((receipt.date_return.after(now) ? "Remain: " : "Expired: ") + (days > 0 ? days + " days" : hours + " hours"));
+                name_book.setText(books[i].name);
+                author_name.setText(books[i].name_author);
+                summary.setText((books[i].summary));
 
-            txtName.setText(receipt.getBookByID().name);
-            txtAuthorName.setText(receipt.getBookByID().name_author);
-            txtBorrowerName.setText(receipt.first_name + receipt.last_name);
-            txtTimeStart.setText("Start: " + receipt.date_start.toString());
+                // Thêm itemView vào LinearLayout
+                container.addView(itemView);
+            }
         }
 
         editDateFrom = findViewById(R.id.editDateFrom);

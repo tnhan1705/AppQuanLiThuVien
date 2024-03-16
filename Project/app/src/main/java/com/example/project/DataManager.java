@@ -14,6 +14,8 @@ import lombok.var;
 public class DataManager {
     private static DataManager instance;
 
+    public String username;
+
     private Book[] books;
     private Receipt[] receipts;
 

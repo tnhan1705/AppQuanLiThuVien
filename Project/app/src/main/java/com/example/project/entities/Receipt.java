@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Receipt implements Serializable {
     public String id;
-    public String id_book;
+    public String id_books;
     public String status;
     public String first_name;
     public String last_name;
@@ -22,14 +22,22 @@ public class Receipt implements Serializable {
     public Timestamp date_start;
     public Timestamp date_return;
 
-    public Book book;
+    public Book[] books;
 
-    public Book getBookByID(){
-        if(book != null) return book;
+    public Book getBookByID(String id){
         Optional<Book> result = Arrays.stream(DataManager.getInstance().getBooks())
-                .filter(book -> book.id.equals(id_book))
+                .filter(book -> book.id.equals(id))
                 .findFirst();
-        book = result.orElse(null);
-        return book;
+        return result.orElse(null);
+    }
+
+    public Book[] getBooksByIDs(){
+        if(books != null) return books;
+        String[] IDs = id_books.split(",");
+        books = new Book[IDs.length];
+        for (int i = 0; i < IDs.length; i++) {
+            books[i] = getBookByID(IDs[i]);
+        }
+        return books;
     }
 }
