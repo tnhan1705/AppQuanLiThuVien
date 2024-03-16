@@ -13,4 +13,11 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"/>
 
+    <TextView
+        android:id="@+id/text_none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="There's nothing to show"/>
+
 </FrameLayout>

@@ -17,6 +17,7 @@ public class DataManager {
     public String username;
 
     private Book[] books;
+    public Book[] booksFilter;
     public Receipt[] receipts;
 
     public List<Book> booksSelect = new ArrayList<>();
@@ -47,6 +48,7 @@ public class DataManager {
     }
 
     public Book[] getBooks() {
+        if(booksFilter != null) return booksFilter;
         return books;
     }
 

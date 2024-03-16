@@ -37,13 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        FragmentAll fragmentAll = (FragmentAll) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.nav_host_fragment_activity_main + ":" + 1);
-        if (fragmentAll != null) {
-            fragmentAll.refresh();
-        }
+        // Code to refresh or update in act1
+
+
     }
 }
