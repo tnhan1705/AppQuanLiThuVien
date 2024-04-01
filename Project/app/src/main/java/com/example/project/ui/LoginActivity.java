@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +16,7 @@ import com.example.project.R;
 import com.example.project.entities.DataResponse;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
+import com.example.project.ui.subFragments.SignUpActivity;
 import com.example.project.utils.Constants;
 import com.example.project.utils.ConvertService;
 import com.example.project.utils.LoadingDialog;
@@ -26,6 +28,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity implements SocketEventListener {
+    TextView signUpTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,14 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                 throw new RuntimeException(e);
             }
         });
-
+        findViewById(R.id.btn_signup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
