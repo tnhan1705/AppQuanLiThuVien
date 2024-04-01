@@ -70,5 +70,4 @@ public class SubFragmentAdapter extends FragmentPagerAdapter {
                 return "";
         }
     }
-
 }

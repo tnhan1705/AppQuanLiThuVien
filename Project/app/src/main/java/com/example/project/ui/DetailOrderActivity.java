@@ -1,10 +1,13 @@
 package com.example.project.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +26,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project.DataManager;
 import com.example.project.R;
 import com.example.project.entities.Book;
+import com.example.project.entities.DataResponse;
 import com.example.project.entities.Receipt;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
 import com.example.project.ui.custom_adapter.CustomBookAdapter;
 import com.example.project.ui.custom_adapter.CustomDetailOrderAdapter;
+import com.example.project.ui.subFragments.FragmentAll;
 import com.example.project.utils.Constants;
 import com.example.project.utils.CreateService;
+import com.example.project.utils.LoadingDialog;
 import com.example.project.utils.PopupUtils;
 import com.example.project.utils.UIService;
 import com.google.gson.Gson;
@@ -43,7 +49,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class DetailOrderActivity extends AppCompatActivity implements SocketEventListener {
 
@@ -61,7 +69,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
     ImageView frame_order_calendar;
     ImageView frame_order_success;
 
-
+    Receipt receipt = null;
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,6 +301,8 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
 
 
     public void onClickSubmitOrder() throws ParseException {
+        LoadingDialog.getInstance(this).show();
+
         Gson gson = new Gson();
 
         Receipt receipt = new Receipt();
@@ -331,6 +341,8 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
         // Tạo một đối tượng Timestamp từ đối tượng Date, với giờ, phút, giây mặc định là 00:00:00
         receipt.date_return = new Timestamp(parsedDate.getTime());
 
+        this.receipt = receipt;
+
         JSONObject loginObject = new JSONObject();
         try {
             loginObject.put("event", Constants.EVENT_ORDER);
@@ -351,16 +363,40 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
 
     @Override
     public void onGetDataResponse(String data) {
-
+        Gson gson = new Gson();
+        DataResponse dataResponse = gson.fromJson(data, DataResponse.class);
+        DataManager.getInstance().UpdateData(dataResponse);
+        LoadingDialog.getInstance(this).hide();
     }
 
     @Override
-    public void onOrderResponse(boolean result) {
+    public void onOrderResponse(boolean result) throws JSONException {
         if(result) {
-            PopupUtils.showPopup(getApplicationContext(), "Notify", "You have successfully booked the book.", Constants.TYPE_ALERT.OK, null, null);
+            GetAllData();
+            DataManager.getInstance().booksSelect.clear();
+            PopupUtils.showPopup(this, "Notify", "You have successfully booked the book.", Constants.TYPE_ALERT.OK, new PopupUtils.OnClickListener() {
+                @Override
+                public void OnPositiveClicked() {
+                    finish();
+                }
+
+                @Override
+                public void OnNegativeClicked() {
+
+                }
+            }, null);
         }
         else {
-            PopupUtils.showPopup(getApplicationContext(), "Warning", "Order book failed. Please try again", Constants.TYPE_ALERT.OK, null, null);
+            PopupUtils.showPopup(this, "Warning", "Order book failed. Please try again", Constants.TYPE_ALERT.OK, null, null);
+            LoadingDialog.getInstance(this).hide();
         }
+    }
+
+    void GetAllData() throws JSONException {
+        JSONObject loginObject = new JSONObject();
+        loginObject.put("event", Constants.EVENT_GET_DATA);
+        loginObject.put("username", DataManager.getInstance().username);
+        String mess = loginObject.toString();
+        WebSocketClient.getInstance().requestToServer(mess, this);
     }
 }

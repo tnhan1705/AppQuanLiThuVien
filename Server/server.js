@@ -74,11 +74,9 @@ async function handleOrder(ws, receipt, username){
     receipt = JSON.parse(receipt);
     receipt.date_start = formatDate(receipt.date_start);
     receipt.date_return = formatDate(receipt.date_return);
-    console.log("Date: " + receipt.date_start);
-    console.log("Date: " + receipt.date_return);
     const rsOrder = await order(receipt);
-    
-    ws.send(JSON.stringify({ event: EVENT.LOGIN, result: rsOrder.toString() }));
+    console.log("Result order: " + rsOrder);
+    ws.send(JSON.stringify({ event: EVENT.ORDER, result: rsOrder.toString() }));
   } catch (error) {
     console.error('Error during order:', error.message);
     ws.send(JSON.stringify({ event: EVENT.ORDER, result: 'false' }));
