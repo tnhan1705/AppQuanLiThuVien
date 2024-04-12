@@ -2,12 +2,10 @@ package com.example.project.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,73 +15,59 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project.DataManager;
 import com.example.project.R;
+import com.example.project.databinding.ActivityDetailReceiptBinding; // Import the generated binding class
 import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
 import com.example.project.utils.UIService;
 
-import java.sql.Timestamp;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
-import android.view.LayoutInflater;
-
 
 public class DetailReceiptActivity extends AppCompatActivity {
 
-    EditText editDateFrom;
-    EditText editDateTo;
+    private ActivityDetailReceiptBinding binding; // Declare a binding variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Initialize the binding
+        binding = ActivityDetailReceiptBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot()); // Set the content view to the root of the binding
         UIService.HideStatusBar(this, this);
-        setContentView(R.layout.activity_detail_receipt);
 
-        ImageButton btnback = findViewById(R.id.btnBack);
-        btnback.setOnClickListener(new View.OnClickListener() {
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        // Nhận Intent từ hoạt động trước
         Intent intent = getIntent();
+        LayoutInflater inflater = LayoutInflater.from(this);
 
-        LinearLayout container = findViewById(R.id.container_items_book);
-        LayoutInflater inflater = LayoutInflater.from(this); // Tạo LayoutInflater
-
-        // Kiểm tra xem Intent có dữ liệu không
         if (intent.hasExtra("receipt")) {
             Receipt receipt = (Receipt) intent.getSerializableExtra("receipt");
             Book[] books = receipt.getBooksByIDs();
 
-            for (int i = 0; i < books.length; i++) { // Số lượng item bạn muốn chèn
-                View itemView = inflater.inflate(R.layout.list_item_book_review, null); // Inflate layout của mỗi item
-                // Thực hiện các thay đổi cần thiết trên itemView, như đặt dữ liệu, sự kiện, v.v.
-                // Ví dụ:
+            for (Book book : books) {
+                View itemView = inflater.inflate(R.layout.list_item_book_review, null);
                 TextView name_book = itemView.findViewById(R.id.name_book);
                 TextView author_name = itemView.findViewById(R.id.author_name);
                 TextView summary = itemView.findViewById(R.id.summary);
 
-                name_book.setText(books[i].name);
-                author_name.setText(books[i].name_author);
-                summary.setText((books[i].summary));
+                name_book.setText(book.name);
+                author_name.setText(book.name_author);
+                summary.setText(book.summary);
 
-                // Thêm itemView vào LinearLayout
-                container.addView(itemView);
+                binding.containerItemsBook.addView(itemView);
             }
         }
 
-        editDateFrom = findViewById(R.id.editDateFrom);
-        editDateFrom.setEnabled(false);
-        editDateFrom.setBackgroundResource(R.drawable.ip_disable);
+        binding.editDateFrom.setEnabled(false);
+        binding.editDateFrom.setBackgroundResource(R.drawable.ip_disable);
 
-        editDateTo = findViewById((R.id.editDateTo));
-
-        ImageView btnCalendar = findViewById(R.id.btnDateTo);
-        btnCalendar.setOnClickListener(new View.OnClickListener() {
+        binding.btnDateTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(v);
@@ -98,20 +82,11 @@ public class DetailReceiptActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String formattedDate = String.format("%04d/%02d/%02d", year, monthOfYear + 1, dayOfMonth);
-                        editDateTo.setText(formattedDate);
-                    }
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    String formattedDate = String.format("%04d/%02d/%02d", year1, monthOfYear + 1, dayOfMonth);
+                    binding.editDateTo.setText(formattedDate);
                 }, year, month, day);
 
         datePickerDialog.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        // Thêm mã xử lý nếu cần thiết
     }
 }

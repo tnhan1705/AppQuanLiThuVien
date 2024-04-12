@@ -73,8 +73,6 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         txtTimeStart.setText("Start: " + receipt.date_start.toString());
 
         Button button = convertView.findViewById(R.id.btnSelect);
-
-        View finalConvertView = convertView;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
