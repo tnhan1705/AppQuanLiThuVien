@@ -1,11 +1,13 @@
 package com.example.project.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.ImageButton;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,6 +27,9 @@ import com.example.project.databinding.FragmentHomeBinding;
 import com.example.project.entities.Book;
 import com.example.project.ui.CaptureAct;
 import com.example.project.ui.DetailOrderActivity;
+import com.example.project.ui.IntroActivity;
+import com.example.project.ui.LoginActivity;
+import com.example.project.ui.subFragments.FragmentAll;
 import com.example.project.ui.subFragments.SubFragmentAdapter;
 import com.example.project.utils.Constants;
 import com.google.android.material.tabs.TabLayout;
@@ -31,6 +37,7 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {

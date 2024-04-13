@@ -23,8 +23,10 @@ import java.util.List;
 
 // CustomBookAdapter.java
 public class CustomBookAdapter extends ArrayAdapter<Book> {
+
     private OnSelectButtonClickListener onSelectButtonClickListener;
     private SparseBooleanArray selectedItems;
+
     boolean isModeSelect;
 
     public void setOnSelectButtonClickListener(OnSelectButtonClickListener listener) {

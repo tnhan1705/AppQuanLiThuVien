@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project.DataManager;
 import com.example.project.R;
-import com.example.project.databinding.ActivityDetailOrderBinding;
 import com.example.project.entities.Book;
 import com.example.project.entities.DataResponse;
 import com.example.project.entities.Receipt;
@@ -55,7 +54,6 @@ import java.util.Date;
 import java.util.List;
 
 public class DetailOrderActivity extends AppCompatActivity implements SocketEventListener {
-    private ActivityDetailOrderBinding binding;
 
     ListView list_book_review;
     ScrollView borrower_info;
@@ -70,23 +68,22 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
     ImageView frame_order_user;
     ImageView frame_order_calendar;
     ImageView frame_order_success;
-    Receipt receipt = null;
 
+    Receipt receipt = null;
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIService.HideStatusBar(this, this);
-        binding = ActivityDetailOrderBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_detail_order);
 
-        list_book_review = binding.listBookReview;
-        borrower_info = binding.borrowerInfo;
-        time_info = binding.timeInfo;
-        list_item_book = binding.listItemBook;
+        list_book_review = findViewById(R.id.list_book_review);
+        borrower_info = findViewById(R.id.borrower_info);
+        time_info = findViewById(R.id.time_info);
+        list_item_book = findViewById(R.id.list_item_book);
 
-        region_next = binding.regionNext;
-        region_submit = binding.regionSubmit;
+        region_next = findViewById(R.id.region_next);
+        region_submit = findViewById(R.id.region_submit);
 
         adapter = new CustomDetailOrderAdapter(this, R.layout.list_item_book_review);
 
@@ -94,7 +91,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
         Book[] books = DataManager.getInstance().getBooksSelect().toArray(new Book[0]);
         adapter.addAll(books); // Pass the array of Book objects to the adapter
 
-        btn_next = binding.btnNext;
+        btn_next = findViewById(R.id.btn_next);
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +99,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
             }
         });
 
-        btn_back = binding.btnBack;
+        btn_back = findViewById(R.id.btnBack);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,14 +109,14 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
 
         list_book_review.setAdapter(adapter);
 
-        frame_order_book = binding.frameOrderBook;
-        frame_order_user = binding.frameOrderUser;
-        frame_order_calendar = binding.frameOrderCalendar;
-        frame_order_success = binding.frameOrderSuccess;
+        frame_order_book = findViewById(R.id.frame_order_book);
+        frame_order_user = findViewById(R.id.frame_order_user);
+        frame_order_calendar = findViewById(R.id.frame_order_calendar);
+        frame_order_success = findViewById(R.id.frame_order_success);
 
         frame_order_book.setBackground(getResources().getDrawable(R.drawable.frame_icon_order0));
 
-        Button btn_submit = binding.btnSubmit;
+        Button btn_submit = findViewById(R.id.btn_submit);
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +128,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
             }
         });
 
-        EditText editPhone = binding.editPhone1;
+        EditText editPhone = findViewById(R.id.edit_phone1);
         editPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -149,6 +146,12 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Thêm mã xử lý nếu cần thiết
     }
 
     public void onClickNext1(){
