@@ -1,13 +1,18 @@
 package com.example.project.ui.custom_adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,10 +73,22 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
         TextView itemTextView1 = convertView.findViewById(R.id.textAuthorName);
         TextView itemTextView2 = convertView.findViewById(R.id.textSummary);
 
+        ImageView imageView = convertView.findViewById(R.id.image);
+
         if (book != null) {
             itemTextView.setText(book.name);
             itemTextView1.setText(book.name_author);
             itemTextView2.setText(book.summary);
+
+            //Log.d("MyTag", book.image);
+            // Handle get image from database
+            byte[] decodedString = Base64.decode(book.image, Base64.DEFAULT);
+            if (decodedString != null && decodedString.length > 0){
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                book.decodedByte = decodedByte;
+                imageView.setImageBitmap(decodedByte);
+            }
         }
 
         button.setOnClickListener(new View.OnClickListener() {

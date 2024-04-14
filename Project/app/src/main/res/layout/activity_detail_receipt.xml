@@ -114,15 +114,16 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/ip"
+                    android:fontFamily="@font/inter_medium"
                     android:hint="Enter text here"
+                    android:inputType="text"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:fontFamily="@font/inter_medium"
-                    android:textSize="15dp"
-                    android:textColorHint="#BCC1CA"
                     android:textColor="@color/black"
-                    android:background="@drawable/ip"
-                    android:inputType="text" />
+                    android:textColorHint="#BCC1CA"
+                    android:textSize="15dp"
+                    tools:ignore="TextSizeCheck" />
 
             </LinearLayout>
 
@@ -251,7 +252,6 @@
                         android:textColor="@color/black"
                         android:background="@drawable/ip_medium"
                         android:inputType="text" />
-
                 </LinearLayout>
 
                 <TextView

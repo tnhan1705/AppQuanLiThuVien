@@ -13,6 +13,13 @@ import lombok.AllArgsConstructor;
 public class Receipt implements Serializable {
     public String id;
     public String id_books;
+
+    public String name;
+    public String summary;
+    public String name_author;
+    public String category;
+    public int inventory_quantity;
+    public String image;
     public String status;
     public String first_name;
     public String last_name;
@@ -21,6 +28,7 @@ public class Receipt implements Serializable {
     public String phone;
     public Timestamp date_start;
     public Timestamp date_return;
+    public String date_add;
 
     public Book[] books;
 

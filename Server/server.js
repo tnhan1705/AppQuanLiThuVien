@@ -4,7 +4,7 @@ const wss = new WebSocket.Server({ port: 3500, host: '0.0.0.0' });
 var clients = new Set(); // Maintain a set of connected clients
 
 // require func database
-const { connectToDatabase, login, getAllBooks, getAllReceipts, order } = require('./database');
+const { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook } = require('./database');
 
 // require enum
 const { LOG_TYPE, EVENT } = require('./constant');
@@ -24,6 +24,9 @@ wss.on('connection', (ws) => {
           break;
         case EVENT.ORDER:
           handleOrder(ws, data.receipt, data.username)
+          break;
+        case EVENT.ADD_BOOK:
+          handleAddBook(ws, data.receipt, data.username)
           break;
         default:
           console.log(LOG_TYPE.ERROR + `Unhandled event: ${data.event}`);
@@ -82,6 +85,18 @@ async function handleOrder(ws, receipt, username){
   } catch (error) {
     console.error('Error during order:', error.message);
     ws.send(JSON.stringify({ event: EVENT.ORDER, result: 'false' }));
+  }
+}
+
+async function handleAddBook(ws, receipt, username){
+  console.log(LOG_TYPE.NOTIFY + `${username} tries to add book`);
+  try {
+    receipt = JSON.parse(receipt);
+    const rsOrder = await addBook(receipt);
+    ws.send(JSON.stringify({ event: EVENT.ADD_BOOK, result: rsOrder.toString() }));
+  } catch (error) {
+    console.error('Error during add book:', error.message);
+    ws.send(JSON.stringify({ event: EVENT.ADD_BOOK, result: 'false' }));
   }
 }
 

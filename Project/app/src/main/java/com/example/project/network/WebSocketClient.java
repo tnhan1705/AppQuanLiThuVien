@@ -68,6 +68,9 @@ public class WebSocketClient extends WebSocketListener {
             case Constants.EVENT_ORDER:
                 _listener.onOrderResponse(Boolean.parseBoolean((String) data.get("result")));
                 break;
+            case Constants.EVENT_ADD_BOOK:
+                _listener.onAddBookResponse(Boolean.parseBoolean((String) data.get("result")));
+                break;
             default:
                 break;
         }

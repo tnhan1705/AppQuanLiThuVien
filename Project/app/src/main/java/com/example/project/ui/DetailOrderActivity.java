@@ -363,4 +363,9 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
             PopupUtils.showPopup(getApplicationContext(), "Warning", "Order book failed. Please try again", Constants.TYPE_ALERT.OK, null, null);
         }
     }
+
+    @Override
+    public void onAddBookResponse(boolean result) {
+
+    }
 }

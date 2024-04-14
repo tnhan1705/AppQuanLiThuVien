@@ -83,6 +83,11 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
 
     }
 
+    @Override
+    public void onAddBookResponse(boolean result) {
+
+    }
+
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();
         loginObject.put("event", Constants.EVENT_GET_DATA);
