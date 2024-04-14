@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.add.AddFragment">
 
     <ScrollView
@@ -42,7 +43,7 @@
                 app:layout_constraintVertical_bias="0.011"/>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="122dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +87,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="372dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -120,7 +121,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -154,7 +155,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -188,7 +189,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -227,7 +228,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -261,7 +262,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="367dp"
+                android:layout_width="match_parent"
                 android:layout_height="77dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -319,21 +320,13 @@
 
             <Button
                 android:id="@+id/buttonAdd"
-                android:layout_width="367dp"
-                android:layout_height="65dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:text="Add"
                 android:textColor="#FFFFFF" />
-            <Button
-                android:id="@+id/buttonCheckImage"
-                android:layout_width="367dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="20dp"
-                android:text="Check Image"
-                android:textColor="#FFFFFF" />
-
 
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

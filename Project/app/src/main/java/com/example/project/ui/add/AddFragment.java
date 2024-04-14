@@ -84,7 +84,7 @@ public class AddFragment extends Fragment implements SocketEventListener {
     String base64Image;
     Bitmap bitmap;
 
-    Button btnAdd, btnCheckImage;
+    Button btnAdd;
     ImageButton ibSelectImage, ibCalendar;
     ImageView imageView;
     TextView textView1;
@@ -208,19 +208,6 @@ public class AddFragment extends Fragment implements SocketEventListener {
             }
         });
 
-        btnCheckImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ByteArrayOutputStream byteArrayOutputStream;
-                byteArrayOutputStream = new ByteArrayOutputStream();
-                if (bitmap != null){
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                    byteArray = byteArrayOutputStream.toByteArray();
-                    final String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                }
-            }
-        });
-
         ibSelectImage.setOnClickListener(view -> pickImage());
         ibCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,7 +273,6 @@ public class AddFragment extends Fragment implements SocketEventListener {
         edtSummary = binding.edtSummary;
 
         btnAdd = binding.buttonAdd;
-        btnCheckImage = binding.buttonCheckImage;
 
         ibSelectImage = binding.ibBookImage;
         ibCalendar = binding.ibDateToAdd;
