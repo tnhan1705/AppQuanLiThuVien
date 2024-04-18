@@ -82,7 +82,7 @@ public class AddFragment extends Fragment implements SocketEventListener {
     ImageButton ibSelectImage, ibCalendar;
     ImageView imageView;
     TextView textView1;
-    EditText edtBookName, edtAuthorName, edtQuantity, editDateToAdd, edtSummary;
+    EditText edtBookName, edtAuthorName, edtQuantity, editDateToAdd, edtSummary, edtBookId;
     Spinner spnBookCategory;
 
     ActivityResultLauncher<Intent> resultLauncher;
@@ -129,6 +129,9 @@ public class AddFragment extends Fragment implements SocketEventListener {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(edtBookId.getText().toString())){
+                    Toast.makeText(getContext(), "Please enter book id", Toast.LENGTH_LONG).show();
+                }
                 if (TextUtils.isEmpty(edtBookName.getText().toString())){
                     Toast.makeText(getContext(), "Please enter book name", Toast.LENGTH_LONG).show();
                 }
@@ -149,7 +152,7 @@ public class AddFragment extends Fragment implements SocketEventListener {
                 Gson gson = new Gson();
                 Receipt receipt = new Receipt();
 
-                receipt.id = CreateService.randomID(10);
+                receipt.id = edtBookId.getText().toString();
                 receipt.name = edtBookName.getText().toString();
                 receipt.summary = edtSummary.getText().toString();
                 receipt.name_author = edtAuthorName.getText().toString();
@@ -267,6 +270,7 @@ public class AddFragment extends Fragment implements SocketEventListener {
         edtQuantity = binding.edtQuantity;
         editDateToAdd = binding.editDateToAdd;
         edtSummary = binding.edtSummary;
+        edtBookId = binding.edtBookId;
 
         btnAdd = binding.buttonAdd;
 
