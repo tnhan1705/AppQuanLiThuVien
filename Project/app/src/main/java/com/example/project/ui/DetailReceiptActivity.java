@@ -2,8 +2,11 @@ package com.example.project.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,16 +78,50 @@ public class DetailReceiptActivity extends AppCompatActivity {
                 author_name.setText(books[i].name_author);
                 summary.setText((books[i].summary));
 
+                ImageView imageView = itemView.findViewById(R.id.image_book);
+                byte[] decodedString = Base64.decode(books[i].image, Base64.DEFAULT);
+                if (decodedString != null && decodedString.length > 0){
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    books[i].decodedByte = decodedByte;
+                    imageView.setImageBitmap(decodedByte);
+                }
+
                 // Thêm itemView vào LinearLayout
                 container.addView(itemView);
+
+                EditText edit_first_name = findViewById(R.id.edit_first_name);
+                edit_first_name.setText(receipt.first_name);
+
+                EditText edit_last_name = findViewById(R.id.edit_last_name);
+                edit_last_name.setText(receipt.last_name);
+
+                RadioButton maleRadioButton = findViewById(R.id.maleRadioButton);
+                maleRadioButton.setChecked(receipt.gender.equals(maleRadioButton.getText()));
+                RadioButton femaleRadioButton = findViewById(R.id.femaleRadioButton);
+                femaleRadioButton.setChecked(receipt.gender.equals(femaleRadioButton.getText()));
+                RadioButton nonBinaryRadioButton = findViewById(R.id.nonBinaryRadioButton);
+                nonBinaryRadioButton.setChecked(receipt.gender.equals(nonBinaryRadioButton.getText()));
+
+                TextView edit_email = findViewById(R.id.edit_email);
+                edit_email.setText(receipt.email);
+
+                TextView edit_region_number = findViewById(R.id.edit_region_number);
+                edit_region_number.setText("+" + receipt.phone.substring(1, 3));
+
+                TextView edit_phone = findViewById(R.id.edit_phone);
+                edit_phone.setText(receipt.phone.substring(3));
+
+                editDateFrom = findViewById(R.id.editDateFrom);
+                editDateFrom.setEnabled(false);
+                editDateFrom.setBackgroundResource(R.drawable.ip_disable);
+                editDateFrom.setText(receipt.date_start.toString());
+
+                editDateTo = findViewById((R.id.editDateTo));
+                editDateTo.setText(receipt.date_return.toString());
             }
         }
 
-        editDateFrom = findViewById(R.id.editDateFrom);
-        editDateFrom.setEnabled(false);
-        editDateFrom.setBackgroundResource(R.drawable.ip_disable);
-
-        editDateTo = findViewById((R.id.editDateTo));
 
         ImageView btnCalendar = findViewById(R.id.btnDateTo);
         btnCalendar.setOnClickListener(new View.OnClickListener() {

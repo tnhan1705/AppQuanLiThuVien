@@ -98,6 +98,8 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
 
                 Gson gson = new Gson();
 
+                receipt.books = null;
+
                 // Start the new activity
                 Intent intent = new Intent(context, DetailReceiptActivity.class);
                 intent.putExtra("receipt", gson.toJson(receipt));

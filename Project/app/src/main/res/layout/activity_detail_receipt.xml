@@ -82,6 +82,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter text here"
@@ -112,6 +113,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ip"
@@ -191,6 +193,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter text here"
@@ -226,6 +229,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/edit_region_number"
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:hint="+ 32"
@@ -241,6 +245,7 @@
                         android:inputType="text" />
 
                     <EditText
+                        android:id="@+id/edit_phone"
                         android:layout_width="278dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter text here"

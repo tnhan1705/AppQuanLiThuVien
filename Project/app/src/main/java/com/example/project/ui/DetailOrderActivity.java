@@ -2,6 +2,7 @@ package com.example.project.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,6 +52,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +71,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
     ImageView frame_order_user;
     ImageView frame_order_calendar;
     ImageView frame_order_success;
-
+    EditText editDateTo;
     Receipt receipt = null;
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -114,6 +117,16 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
         frame_order_calendar = findViewById(R.id.frame_order_calendar);
         frame_order_success = findViewById(R.id.frame_order_success);
 
+        ImageView btnDateTo = findViewById(R.id.btnDateTo);
+        btnDateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
+        editDateTo = findViewById(R.id.editDateTo);
+
         frame_order_book.setBackground(getResources().getDrawable(R.drawable.frame_icon_order0));
 
         Button btn_submit = findViewById(R.id.btn_submit);
@@ -146,6 +159,24 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
                 }
             }
         });
+    }
+
+    public void showDatePickerDialog(View v) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String formattedDate = String.format("%04d/%02d/%02d", year, monthOfYear + 1, dayOfMonth);
+                        editDateTo.setText(formattedDate);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
     }
 
     @Override
