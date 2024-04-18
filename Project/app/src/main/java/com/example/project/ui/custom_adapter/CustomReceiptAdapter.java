@@ -2,7 +2,10 @@ package com.example.project.ui.custom_adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,8 +71,19 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         long hours = Math.abs(duration.toHours() % 24);
         txtStatus.setText((receipt.date_return.after(now) ? "Remain: " : "Expired: ") + (days > 0 ? days + " days" : hours + " hours"));
 
-        txtName.setText(receipt.getBooksByIDs()[0].name);
-        txtAuthorName.setText(receipt.getBooksByIDs()[0].name_author);
+        Book[] books = receipt.getBooksByIDs();
+
+        ImageView image = convertView.findViewById(R.id.image);
+        byte[] decodedString = Base64.decode(books[0].image, Base64.DEFAULT);
+        if (decodedString != null && decodedString.length > 0){
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            books[0].decodedByte = decodedByte;
+            image.setImageBitmap(decodedByte);
+        }
+
+        txtName.setText(books[0].name);
+        txtAuthorName.setText(books[0].name_author);
         txtBorrowerName.setText(receipt.first_name + receipt.last_name);
         txtTimeStart.setText("Start: " + receipt.date_start.toString());
 

@@ -14,7 +14,6 @@
             android:layout_marginTop="70dp"
             android:layout_marginStart="60dp"
             android:layout_marginBottom="70dp"
-            android:background="@drawable/book_1"
             android:layout_height="250dp"/>
 
         <LinearLayout
