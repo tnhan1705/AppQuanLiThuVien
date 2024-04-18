@@ -8,3 +8,5 @@ public interface SocketEventListener {
     void onGetDataResponse(String data);
     void onOrderResponse(boolean result) throws JSONException;
 }
+
+

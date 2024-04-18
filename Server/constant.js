@@ -7,7 +7,10 @@ const LOG_TYPE = Object.freeze({
 const EVENT = Object.freeze({
     LOGIN: "login",
     GET_DATA: "getData",
-    ORDER: "order"
+    ORDER: "order",
+    ADD_USER: "addUser",
+    CHECK_USERNAME: "checkUsernameExists",
+    CHANGE_PASSWORD: "changePassword"
 })
 
 // Export the enum for use in other scripts

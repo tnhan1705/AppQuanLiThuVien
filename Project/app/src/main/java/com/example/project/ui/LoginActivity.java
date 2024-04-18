@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project.DataManager;
 import com.example.project.R;
 import com.example.project.entities.DataResponse;
+import com.example.project.entities.User;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
+import com.example.project.network.WebSocketResponseListener;
 import com.example.project.ui.subFragments.SignUpActivity;
 import com.example.project.utils.Constants;
 import com.example.project.utils.ConvertService;
@@ -29,6 +31,7 @@ import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity implements SocketEventListener {
     TextView signUpTxt;
+    private Boolean resultCheck = new Boolean(true);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,29 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                 startActivity(intent);
             }
         });
+        findViewById(R.id.btn_forgot_password).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!resultCheck) {
+                    Toast.makeText(LoginActivity.this, "Username không tồn tại!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent;
+                intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        EditText editTextUsername = (EditText)findViewById(R.id.editUsername);
+        editTextUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    String username = editTextUsername.getText().toString().trim();
+                    checkUserName(username);
+                }
+            }
+        });
     }
 
     @Override
@@ -91,6 +117,35 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
     @Override
     public void onOrderResponse(boolean result) {
 
+    }
+    private void checkUserName(String userName) {
+        Gson gson = new Gson();
+        String userJson = gson.toJson(userName);
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("event", Constants.EVENT_CHECK_USERNAME);
+            jsonObject.put("username", userName);
+            String message = jsonObject.toString();
+
+            // Gửi tin nhắn và gắn listener
+            WebSocketClient.getInstance().send(message, new WebSocketResponseListener() {
+                @Override
+                public void checkUserNameResponse(String data) {
+                    // Xử lý phản hồi từ máy chủ
+                    if(data.equals("null")){
+                        resultCheck = false;
+                    }
+                    else {
+                        resultCheck = true;
+                        DataManager.getInstance().getUser(data);
+                        ForgotPasswordActivity.currentUser = DataManager.getInstance().getUser();
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void GetAllData() throws JSONException {

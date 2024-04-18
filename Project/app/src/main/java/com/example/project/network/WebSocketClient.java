@@ -8,7 +8,9 @@ import com.example.project.utils.ConvertService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,6 +38,7 @@ public class WebSocketClient extends WebSocketListener {
 
     private WebSocket _webSocket;
     private SocketEventListener _listener;
+    private WebSocketResponseListener webSocketResponseListener;
 
     public void init() {
         OkHttpClient client = new OkHttpClient.Builder()
@@ -55,6 +58,14 @@ public class WebSocketClient extends WebSocketListener {
         this._listener = _listener;
     }
 
+    public void send(String message){
+        _webSocket.send(message);
+    }
+    public void send(String message, WebSocketResponseListener listener){
+        _webSocket.send(message);
+        this.webSocketResponseListener = listener;
+    }
+
     public void handlerEvent(String text) throws JSONException {
         JSONObject data = ConvertService.parseToJsonObject(text);
         String event = (String) data.get("event");
@@ -67,6 +78,9 @@ public class WebSocketClient extends WebSocketListener {
                 break;
             case Constants.EVENT_ORDER:
                 _listener.onOrderResponse(Boolean.parseBoolean((String) data.get("result")));
+                break;
+            case Constants.EVENT_CHECK_USERNAME:
+                webSocketResponseListener.checkUserNameResponse((String) data.get("data"));
                 break;
             default:
                 break;

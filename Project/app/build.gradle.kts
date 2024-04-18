@@ -52,6 +52,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("androidx.activity:activity:1.8.0")
+    implementation(files("libs\\mail.jar"))
+    implementation(files("libs\\additionnal.jar"))
+    implementation(files("libs\\activation.jar"))
 
     // Use JUnit 5 dependencies
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
