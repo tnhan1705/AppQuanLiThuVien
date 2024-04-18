@@ -7,6 +7,7 @@ public interface SocketEventListener {
     void onLoginResponse(boolean result) throws JSONException;
     void onGetDataResponse(String data);
     void onOrderResponse(boolean result) throws JSONException;
+    void onAddBookResponse(boolean result) throws JSONException;
 }
 
 

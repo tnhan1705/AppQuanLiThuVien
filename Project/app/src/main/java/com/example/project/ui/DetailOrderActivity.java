@@ -392,6 +392,11 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
         }
     }
 
+    @Override
+    public void onAddBookResponse(boolean result) throws JSONException {
+
+    }
+
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();
         loginObject.put("event", Constants.EVENT_GET_DATA);

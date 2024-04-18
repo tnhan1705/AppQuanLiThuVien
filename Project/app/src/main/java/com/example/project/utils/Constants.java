@@ -8,6 +8,7 @@ public class Constants {
     public static final String EVENT_LOGIN = "login";
     public static final String EVENT_GET_DATA = "getData";
     public static final String EVENT_ORDER = "order";
+    public  static final String EVENT_ADD_BOOK = "addBook";
 
     public static final String EVENT_ADD_USER = "addUser";
 

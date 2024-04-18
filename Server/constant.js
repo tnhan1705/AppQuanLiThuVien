@@ -10,7 +10,8 @@ const EVENT = Object.freeze({
     ORDER: "order",
     ADD_USER: "addUser",
     CHECK_USERNAME: "checkUsernameExists",
-    CHANGE_PASSWORD: "changePassword"
+    CHANGE_PASSWORD: "changePassword",
+    ADD_BOOK: "addBook"
 })
 
 // Export the enum for use in other scripts

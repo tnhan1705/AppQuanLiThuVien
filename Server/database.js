@@ -58,12 +58,17 @@ async function getAllBooks() {
         // Execute the query
         const [rows, fields] = await connection.execute(query);
 
-        // Return the result
-        return rows;
-    } catch (error) {
-        console.error('An error occurred while getting all books:', error.message);
-        throw error;
-    }
+    // Get string value of image(BLOB) in mysql workbench
+    rows.forEach(row => {
+      row.image = Buffer.from(row.image, 'string').toString();
+    });
+
+    // Return the result
+    return rows;
+  } catch (error) {
+    console.error('An error occurred while getting all books:', error.message);
+    throw error;
+  }
 }
 
 async function getAllReceipts() {
@@ -185,5 +190,25 @@ async function changePassword(username, newPassword) {
     }
 }
 
+async function addBook(receipt){
+  try {
+    const connection = await connectToDatabase();
+
+    const query = `INSERT INTO quanlithuvien.sach 
+    (id, name, summary, name_author, inventory_quantity, image, category, date_add)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const { id, name, summary, name_author, inventory_quantity, image, category, date_add} = receipt;
+
+    await connection.execute(query, [id, name, summary, name_author, inventory_quantity, image, category, date_add]);
+
+    return true
+    
+  } catch (error) {
+    console.error('An error occurred while getting all receipt:', error.message);
+    throw false;
+  }
+}
+
 // Export the connectToDatabase function
-module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order, addUser, checkUsernameExists, changePassword };
+module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword };

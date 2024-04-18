@@ -82,6 +82,9 @@ public class WebSocketClient extends WebSocketListener {
             case Constants.EVENT_CHECK_USERNAME:
                 webSocketResponseListener.checkUserNameResponse((String) data.get("data"));
                 break;
+            case Constants.EVENT_ADD_BOOK:
+                _listener.onAddBookResponse(Boolean.parseBoolean((String) data.get("result")));
+                break;
             default:
                 break;
         }
