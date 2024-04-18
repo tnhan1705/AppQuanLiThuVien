@@ -26,6 +26,7 @@ import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
 import com.example.project.ui.DetailReceiptActivity;
 import com.example.project.ui.subFragments.OnSelectButtonClickListener;
+import com.google.gson.Gson;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -95,9 +96,11 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
             public void onClick(View view) {
                 Context context = view.getContext();
 
+                Gson gson = new Gson();
+
                 // Start the new activity
                 Intent intent = new Intent(context, DetailReceiptActivity.class);
-                intent.putExtra("receipt", receipt);
+                intent.putExtra("receipt", gson.toJson(receipt));
                 context.startActivity(intent);
             }
         });

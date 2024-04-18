@@ -2,7 +2,7 @@ package com.example.project.utils;
 
 public class Constants {
     // main ip
-    public static final String SERVER_URL = "ws://192.168.0.109:3500"; // Replace with your server IP or hostname
+    public static final String SERVER_URL = "ws://192.168.0.102:3500"; // Replace with your server IP or hostname
 
     // events handlers
     public static final String EVENT_LOGIN = "login";

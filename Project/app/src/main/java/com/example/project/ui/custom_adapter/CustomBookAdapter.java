@@ -60,13 +60,13 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
         List<Book> books = DataManager.getInstance().getBooksSelect();
         boolean containsBook = books.stream().anyMatch(b -> b.id.equals(book.id));
         if(containsBook && isModeSelect){
-            // Đảo ngược trạng thái của mục
-            selectedItems.put(position, !selectedItems.get(position));
-
             // Thay đổi màu nền của list_item_book
             int backgroundColor = selectedItems.get(position) ? ContextCompat.getColor(getContext(), R.color.itemSelected) : Color.WHITE;
             finalConvertView.setBackgroundColor(backgroundColor);
             button.setImageDrawable(selectedItems.get(position) ? ContextCompat.getDrawable(getContext(), R.drawable.tick_added) : ContextCompat.getDrawable(getContext(), R.drawable.button2));
+        }
+        else if(!containsBook && isModeSelect && selectedItems.get((position))){
+            selectedItems.put(position, !selectedItems.get(position));
         }
         else if(!isModeSelect){
             button.setVisibility(View.GONE);

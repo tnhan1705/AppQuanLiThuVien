@@ -20,6 +20,7 @@ import com.example.project.R;
 import com.example.project.entities.Book;
 import com.example.project.entities.Receipt;
 import com.example.project.utils.UIService;
+import com.google.gson.Gson;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -56,7 +57,9 @@ public class DetailReceiptActivity extends AppCompatActivity {
 
         // Kiểm tra xem Intent có dữ liệu không
         if (intent.hasExtra("receipt")) {
-            Receipt receipt = (Receipt) intent.getSerializableExtra("receipt");
+            Gson gson = new Gson();
+            String json = intent.getStringExtra("receipt");
+            Receipt receipt = gson.fromJson(json, Receipt.class);
             Book[] books = receipt.getBooksByIDs();
 
             for (int i = 0; i < books.length; i++) { // Số lượng item bạn muốn chèn

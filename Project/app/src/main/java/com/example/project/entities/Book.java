@@ -21,7 +21,7 @@ public class Book implements Serializable {
 
     public  String dateToAdd;
 
-    public Bitmap decodedByte;
+    public transient Bitmap decodedByte;
 
     public Book() {
     }
