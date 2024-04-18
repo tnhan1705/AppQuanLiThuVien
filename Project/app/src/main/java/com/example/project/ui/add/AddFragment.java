@@ -112,7 +112,8 @@ public class AddFragment extends Fragment implements SocketEventListener {
 
     private void SetEvent() {
         CreateSpinner();
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,data_lsp);
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.category_iem_spinner,data_lsp);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_items);
         spnBookCategory.setAdapter(adapter);
         spnBookCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -143,7 +144,6 @@ public class AddFragment extends Fragment implements SocketEventListener {
                 if (selectedCategory.equals("")){
                     Toast.makeText(getContext(), "Please select category", Toast.LENGTH_LONG).show();
                 }
-
                 LoadingDialog.getInstance(getContext()).show();
 
                 Gson gson = new Gson();
