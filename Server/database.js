@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 const fs = require('fs');
-
+const { countBy } = require('lodash');
 let connection;
 
 // Function to establish a MySQL connection
@@ -10,7 +10,7 @@ async function connectToDatabase() {
             connection = await mysql.createConnection({
                 host: 'localhost',
                 user: 'root',
-                password: '123456',
+                password: '141705',
                 database: 'quanlithuvien',
             });
             console.log('Connected to MySQL database');
@@ -18,6 +18,23 @@ async function connectToDatabase() {
         return connection;
     } catch (error) {
         console.error('Error connecting to MySQL database:', error.message);
+        throw error;
+    }
+}
+
+async function connectionToDataBase(){
+    try {
+        connection = await mysql.createConnection({
+            host:'localhost',
+            user:'root',
+            password:'141705',
+            database:'quanlithuvien'
+        })
+        console.log('connection to database');
+        return connection;
+        
+    } catch (error) {
+        console.error('error connecting to MySql: ',error);
         throw error;
     }
 }
@@ -102,6 +119,10 @@ async function order(receipt) {
         const query2 = `UPDATE quanlithuvien.sach 
     SET inventory_quantity = inventory_quantity - 1 
     WHERE id = ?`;
+        
+        const query3 = `INSERT INTO quanlithuvien.ctpm 
+    (idpm,idsach,ngaymuon,trangthai,soluong) 
+    VALUES (?, ?, ?, ?, ?)`;
 
         const { id, id_books, status, first_name, last_name, gender, email, phone, date_start, date_return } = receipt;
 
@@ -113,6 +134,14 @@ async function order(receipt) {
         for (const arrId of arrIds) {
             // Execute the update query with parameter
             await connection.execute(query2, [arrId]);
+        }
+
+        // Đếm số lượng sách mỗi loại
+        const sach_dem = countBy(arrIds);
+
+        for (const arrId of arrIds) {
+            // Execute the update query with parameter
+            await connection.execute(query3, [receipt.id,arrId,receipt.date_start,receipt.status,sach_dem[arrId]]);
         }
 
         // Return the result
@@ -198,10 +227,17 @@ async function addBook(receipt){
     (id, name, summary, name_author, inventory_quantity, image, category, date_add)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
+    const query2 = `INSERT INTO quanlithuvien.sach2 
+    (idsach, tensach, gia, tonkho)
+    VALUES (?, ?, ?, ?)`;
+    
+
+
     const { id, name, summary, name_author, inventory_quantity, image, category, date_add} = receipt;
 
     await connection.execute(query, [id, name, summary, name_author, inventory_quantity, image, category, date_add]);
 
+    await connection.execute(query2, [id, name, '20000',inventory_quantity]);
     return true
     
   } catch (error) {
@@ -210,5 +246,55 @@ async function addBook(receipt){
   }
 }
 
+
+async function getDataStatistic(dayA,dayB){
+    const connection = await connectionToDataBase();
+
+    const query = `SELECT 
+    s.tensach,
+            SUM(CASE WHEN ctpm.trangthai = 'Borrowing' 
+                THEN ctpm.soluong 
+                    WHEN ctpm.trangthai = 'Return' 
+                THEN ctpm.soluong ELSE 0 END) AS tongluotmuon,
+            SUM(CASE WHEN ctpm.trangthai = 'Return' 
+                THEN ctpm.soluong ELSE 0 END) AS tongluottra,
+            SUM(ctpm.soluong * s.gia) AS doanhthu,
+    s.tonkho
+    FROM 
+        quanlithuvien.ctpm AS ctpm
+    JOIN 
+        quanlithuvien.sachhai AS s ON ctpm.idsach = s.idsach
+    WHERE 
+        ctpm.ngaymuon BETWEEN ? AND ?
+    GROUP BY 
+        ctpm.idsach
+    `
+    const [row,filed] = await connection.execute(query,[dayA,dayB]);
+    console.log('DataStatistic from database:', row);
+    await connection.end();
+    return row;
+}
+
+async function getDataBarChart(dayA,dayB){
+    const connection = await connectionToDataBase();
+
+    const query = `SELECT s.tensach, SUM(c.soluong) AS tongluotmuon
+    FROM quanlithuvien.ctpm AS c
+    JOIN quanlithuvien.sachhai AS s ON c.idsach = s.idsach
+    WHERE c.ngaymuon BETWEEN ? AND ?
+    AND c.trangthai IN ('Borrowing', 'Return')
+    GROUP BY s.tensach
+    ORDER BY tongluotmuon DESC
+    LIMIT 3; `;
+
+
+    const [row,field] = await connection.execute(query,[dayA,dayB]);
+    console.log('Data from database:', row);
+    await connection.end();
+    return row;
+}
+
+
+
 // Export the connectToDatabase function
-module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword };
+module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword,getDataBarChart,getDataStatistic };

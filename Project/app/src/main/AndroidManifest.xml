@@ -21,6 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.StatisticsDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ui.BookStatistics"
+            android:exported="true" />
+        <activity
             android:name=".ui.subFragments.SignUpActivity"
             android:exported="false" />
         <activity

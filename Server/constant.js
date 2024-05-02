@@ -11,7 +11,9 @@ const EVENT = Object.freeze({
     ADD_USER: "addUser",
     CHECK_USERNAME: "checkUsernameExists",
     CHANGE_PASSWORD: "changePassword",
-    ADD_BOOK: "addBook"
+    ADD_BOOK: "addBook",
+    STATISTICAL: "Statistical",
+    STATISTICALDETAIL: "StatisticalDetail",
 })
 
 // Export the enum for use in other scripts
