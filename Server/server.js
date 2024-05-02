@@ -4,8 +4,8 @@ const wss = new WebSocket.Server({ port: 3500, host: '0.0.0.0' });
 var clients = new Set(); // Maintain a set of connected clients
 
 // require func database
+const { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword, updateReceiptStatus, updateReceipt, getDataBarChart,getDataStatistic } = require('./database');
 
-const { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword, updateReceiptStatus, updateReceipt } = require('./database');
 const { LOG_TYPE, EVENT } = require('./constant');
 
 wss.on('connection', (ws) => {
@@ -13,6 +13,13 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         try {
             const data = JSON.parse(message);
+            if (data.event == 'Statistical'){
+                handlegetDataBarChart(ws,data.dayA,data.dayB);
+            }
+
+            if (data.event == 'StatisticalDetail'){
+                handlegetDataStatistical(ws,data.dayA,data.dayB);
+            }
             switch (data.event) {
                 case EVENT.LOGIN:
                     handleLogin(ws, data.username, data.password);
@@ -234,5 +241,16 @@ function formatDate(date) {
 
     return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }
+async function handlegetDataBarChart(ws,dayA,dayB){
+    console.log(dayA,dayB)
+    const data = await getDataBarChart(dayA,dayB);
+    ws.send(JSON.stringify({idbook:data}))
 
-connectToDatabase();
+}
+
+async function handlegetDataStatistical(ws,dayA,dayB){
+    const data = await getDataStatistic(dayA,dayB);
+    ws.send(JSON.stringify({dataBooks:data}))
+
+}
+
