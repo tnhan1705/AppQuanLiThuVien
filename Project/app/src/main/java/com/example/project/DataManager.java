@@ -24,10 +24,13 @@ public class DataManager {
     private Book[] books;
     public Book[] booksFilter;
     public Receipt[] receipts;
+    public Receipt[] ReceiptsFillter;
+
 
     public List<Book> booksSelect = new ArrayList<>();
     public User user;
 
+    public List<Receipt> receiptslect = new ArrayList<>();
     private DataManager() {
 
     }
@@ -57,12 +60,13 @@ public class DataManager {
         if(booksFilter != null) return booksFilter;
         return books;
     }
-
+//
     public void addBookSelect(Book book){
         booksSelect.add(book);
     }
 
     public Receipt[] getReceipts() {
+        if(ReceiptsFillter != null) return ReceiptsFillter;
         return receipts;
     }
 

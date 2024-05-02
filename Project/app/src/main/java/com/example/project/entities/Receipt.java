@@ -32,6 +32,55 @@ public class Receipt implements Serializable {
 
     public Book[] books;
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Timestamp getDate_start() {
+        return date_start;
+    }
+
+    public Timestamp getDate_return() {
+        return date_return;
+    }
+
     public Book getBookByID(String id){
         Optional<Book> result = Arrays.stream(DataManager.getInstance().getBooks())
                 .filter(book -> book.id.equals(id))

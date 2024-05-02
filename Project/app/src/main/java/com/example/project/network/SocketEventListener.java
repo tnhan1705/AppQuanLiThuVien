@@ -8,6 +8,7 @@ public interface SocketEventListener {
     void onGetDataResponse(String data);
     void onOrderResponse(boolean result) throws JSONException;
     void onAddBookResponse(boolean result) throws JSONException;
+    void onHandlePhieu(boolean result) throws JSONException;
+    void onHandleUpdate(boolean result) throws JSONException;
 }
-
 

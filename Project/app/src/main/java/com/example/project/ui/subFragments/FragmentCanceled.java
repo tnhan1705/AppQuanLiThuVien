@@ -4,10 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.project.DataManager;
 import com.example.project.R;
+import com.example.project.entities.Receipt;
+import com.example.project.ui.custom_adapter.CustomCancelAdapter;
+import com.example.project.ui.custom_adapter.CustomReceiptAdapter;
+import com.example.project.ui.custom_adapter.CustomReturnAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,11 +29,12 @@ public class FragmentCanceled extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ListView listView;
+    View view;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private CustomCancelAdapter adapter;
     public FragmentCanceled() {
         // Required empty public constructor
     }
@@ -60,6 +70,35 @@ public class FragmentCanceled extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.sub_fragment_borrowing, container, false);
+        view =inflater.inflate(R.layout.sub_fragment_canceled, container, false);
+        listView = view.findViewById(R.id.listcanceled);
+        updateList();
+        return view;
+    }
+
+    public void updateList() {
+        if(adapter==null){
+            adapter = new CustomCancelAdapter( getContext(), R.layout.list_item_canceled);}
+        listView = view.findViewById(R.id.listcanceled);
+        Receipt[] allReceipts = DataManager.getInstance().getReceipts();
+//        System.out.println("110   "+allReceipts.length);
+        if (allReceipts != null) { // Kiểm tra xem allReceipts có null không
+            List<Receipt> returnReceipts = new ArrayList<>();
+
+            // Lọc và chỉ chọn những Receipt có status là "Return"
+            for (Receipt receipt : allReceipts) {
+                if ("Cancel".equals(receipt.getStatus())) {
+                    returnReceipts.add(receipt);
+                }
+
+            }
+
+            adapter.clear();
+            adapter.addAll(returnReceipts);
+
+            listView.setAdapter(adapter);
+
+        }
+
     }
 }

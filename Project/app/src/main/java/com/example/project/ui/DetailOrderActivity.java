@@ -35,6 +35,7 @@ import com.example.project.network.WebSocketClient;
 import com.example.project.ui.custom_adapter.CustomBookAdapter;
 import com.example.project.ui.custom_adapter.CustomDetailOrderAdapter;
 import com.example.project.ui.subFragments.FragmentAll;
+import com.example.project.ui.subFragments.FragmentReturned;
 import com.example.project.utils.Constants;
 import com.example.project.utils.CreateService;
 import com.example.project.utils.LoadingDialog;
@@ -385,7 +386,11 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
     }
+
+
+
 
     @Override
     public void onLoginResponse(boolean result) throws JSONException {
@@ -402,6 +407,7 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
 
     @Override
     public void onOrderResponse(boolean result) throws JSONException {
+        System.out.println("Order"+ result);
         if(result) {
             GetAllData();
             DataManager.getInstance().booksSelect.clear();
@@ -425,6 +431,14 @@ public class DetailOrderActivity extends AppCompatActivity implements SocketEven
 
     @Override
     public void onAddBookResponse(boolean result) throws JSONException {
+
+    }
+    public void onHandlePhieu(boolean result) throws JSONException {
+
+    }
+
+    @Override
+    public void onHandleUpdate(boolean result) throws JSONException {
 
     }
 

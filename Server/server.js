@@ -4,8 +4,8 @@ const wss = new WebSocket.Server({ port: 3500, host: '0.0.0.0' });
 var clients = new Set(); // Maintain a set of connected clients
 
 // require func database
-const { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword } = require('./database');
-// require enum
+
+const { connectToDatabase, login, getAllBooks, getAllReceipts, order, addBook, addUser, checkUsernameExists, changePassword, updateReceiptStatus, updateReceipt } = require('./database');
 const { LOG_TYPE, EVENT } = require('./constant');
 
 wss.on('connection', (ws) => {
@@ -32,12 +32,36 @@ wss.on('connection', (ws) => {
                 case EVENT.CHANGE_PASSWORD:
                     handleChangePassword(ws, data.username, data.newPassword)
                     break;
-                    case EVENT.ADD_BOOK:
-                        handleAddBook(ws, data.receipt, data.username)
-                        break;
+                case EVENT.ADD_BOOK:
+                    handleAddBook(ws, data.receipt, data.username)
+                    break;
+                    case EVENT.REMARK:  
+          console.log('Received REMARK event with status:' + EVENT.REMARK );
+          if (data.receipt && data.username) {
+            console.log('Received REMARK event with status:');
+            handleReceipt(ws, data.receipt, data.username);
+          } else {
+            console.error('Invalid data received for REMARK event');
+            // Gửi thông báo lỗi trở lại cho client
+            ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'error', message: 'Invalid data received' }));
+          }
+          break; 
+        case EVENT.UPDATE:
+          console.log('Received REMARK event with status:' + EVENT.UPDATE );
+          if (data.receipt && data.username) {
+    
+              console.log('Received REMARK event with status:');
+              handleUpdateReceipt(ws, data.receipt, data.username);
+            } else {
+              console.error('Invalid data received for Update event');
+              // Gửi thông báo lỗi trở lại cho client
+              ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'error', message: 'Invalid data received' }));
+            }
+            break;
                 default:
                     console.log(LOG_TYPE.ERROR + `Unhandled event: ${data.event}`);
             }
+
 
         } catch (error) {
             console.error('Error parsing message:', error.message);
@@ -60,7 +84,7 @@ async function handleLogin(ws, username, password) {
         console.error('Error during login:', error.message);
         ws.send(JSON.stringify({ event: EVENT.LOGIN, result: 'false' }));
     }
-}
+  }
 
 async function handleGetData(ws, username) {
     console.log(LOG_TYPE.NOTIFY + `${username} tries to get data`);
@@ -150,6 +174,52 @@ async function handleAddBook(ws, receipt, username){
     ws.send(JSON.stringify({ event: EVENT.ADD_BOOK, result: 'false' }));
   }
 }
+
+
+async function handleReceipt(ws,receipt,username) {
+  console.log(LOG_TYPE.NOTIFY + `${username} tries to mark receipt as returned`);
+
+  try {
+    // Gọi hàm cập nhật trạng thái Phiếu trong cơ sở dữ liệu
+    receipt = JSON.parse(receipt);
+    const success = await updateReceiptStatus( receipt);
+
+    if (success && ws.readyState === WebSocket.OPEN) {
+      // Gửi lại thông báo về client rằng Phiếu đã được cập nhật thành công
+      ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'true' }));
+    } else {
+      // Gửi lại thông báo về client nếu cập nhật thất bại hoặc kết nối không hợp lệ
+      ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'failed' }));
+    }
+  } catch (error) {
+    console.error('Error during marking receipt as returned:', error.message);
+    ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'error' }));
+  }
+}
+
+
+async function handleUpdateReceipt(ws,receipt,username) {
+  console.log(LOG_TYPE.NOTIFY + `${username} tries to mark receipt as returned`);
+
+  try {
+    // Gọi hàm cập nhật trạng thái Phiếu trong cơ sở dữ liệu
+    receipt = JSON.parse(receipt);
+    const success = await updateReceipt( receipt);
+
+    if (success && ws.readyState === WebSocket.OPEN) {
+      // Gửi lại thông báo về client rằng Phiếu đã được cập nhật thành công
+      ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'true' }));
+    } else {
+      // Gửi lại thông báo về client nếu cập nhật thất bại hoặc kết nối không hợp lệ
+      ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'failed' }));
+    }
+  } catch (error) {
+    console.error('Error during marking receipt as returned:', error.message);
+    ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'error' }));
+  }
+}
+
+
 
 function formatDate(date) {
     // Ensure 'date' is a valid Date object

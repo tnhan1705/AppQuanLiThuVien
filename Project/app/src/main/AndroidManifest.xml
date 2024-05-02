@@ -24,6 +24,9 @@
             android:name=".ui.subFragments.SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.detail_return"
+            android:exported="false" />
+        <activity
             android:name=".ui.DetailReceiptActivity"
             android:exported="false" />
         <activity

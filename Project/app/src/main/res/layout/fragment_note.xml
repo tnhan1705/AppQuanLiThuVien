@@ -18,11 +18,11 @@
         android:layout_alignParentTop="true">
 
         <EditText
-            android:id="@+id/searchEditText"
+            android:id="@+id/searchEditTextNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/searchButton"
+            android:layout_toLeftOf="@+id/searchButtonNote"
             android:layout_marginLeft="8dp"
             android:hint="Search..."
             android:fontFamily="@font/inter_regular"
@@ -35,7 +35,7 @@
             android:layout_centerVertical="true"/>
 
         <Button
-            android:id="@+id/searchButton"
+            android:id="@+id/searchButtonNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

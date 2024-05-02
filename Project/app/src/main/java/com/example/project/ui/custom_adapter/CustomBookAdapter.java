@@ -57,7 +57,10 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
 
         // Get the current Book object
         Book book = getItem(position);
+        
+        System.out.println("55 " + book.id);
         List<Book> books = DataManager.getInstance().getBooksSelect();
+        System.out.println("57  "+books.stream().anyMatch(b -> b.id.equals(book.id)));
         boolean containsBook = books.stream().anyMatch(b -> b.id.equals(book.id));
         if(containsBook && isModeSelect){
             // Thay đổi màu nền của list_item_book
@@ -80,6 +83,7 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
         ImageView imageView = convertView.findViewById(R.id.image);
 
         if (book != null) {
+
             itemTextView.setText(book.name);
             itemTextView1.setText(book.name_author);
             itemTextView2.setText(book.summary);

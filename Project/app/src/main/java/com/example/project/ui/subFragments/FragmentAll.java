@@ -74,7 +74,7 @@ public class FragmentAll extends Fragment {
                 myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
             }
         });
-
+        System.out.println("Borowing   ");
         // Assuming DataManager.getInstance().getBooks() returns an array of Book objects
         Book[] books = DataManager.getInstance().getBooks();
         adapter.clear();
@@ -83,7 +83,39 @@ public class FragmentAll extends Fragment {
         listView.setAdapter(null);
         listView.setAdapter(adapter);
     }
-
+//    public void refresh(String txtSearch){
+//        Book[] books = null;
+//        if(txtSearch == "") books = DataManager.getInstance().getBooks();
+//        else{
+//            Book[] booksData = DataManager.getInstance().getBooks();
+//            books = Arrays.stream(booksData)
+//                    .filter(book -> book.name.contains(txtSearch) || book.name_author.contains(txtSearch))
+//                    .toArray(Book[]::new);
+//        }
+//        if(books != null){
+//            textNone.setVisibility(View.GONE);
+//
+//            Button myButton = getParentFragment().getView().findViewById(R.id.myButton);
+//
+//            listView = view.findViewById(R.id.listView);
+//            if(adapter == null) adapter = new CustomBookAdapter(requireContext(), R.layout.list_item_book, true);
+//            adapter.setOnSelectButtonClickListener(new OnSelectButtonClickListener(){
+//
+//                @Override
+//                public void onSelectButtonClick() {
+//                    myButton.setText("Check Out +" + DataManager.getInstance().getBooksSelect().size());
+//                }
+//            });
+//
+//            adapter.clear();
+//            adapter.addAll(books); // Pass the array of Book objects to the adapter
+//
+//            listView.setAdapter(adapter);
+//        }
+//        else{
+//            textNone.setVisibility(View.VISIBLE);
+//        }
+//    }
     @Override
     public void onResume() {
         super.onResume();

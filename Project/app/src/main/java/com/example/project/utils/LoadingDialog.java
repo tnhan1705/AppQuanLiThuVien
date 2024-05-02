@@ -2,6 +2,7 @@ package com.example.project.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -26,6 +27,8 @@ public class LoadingDialog {
         }
         return instance;
     }
+
+
 
     private void createDialog() {
         dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
