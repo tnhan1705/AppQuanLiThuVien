@@ -2,9 +2,11 @@ package com.example.project.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.google.gson.Gson;
 public class LoginActivity extends AppCompatActivity implements SocketEventListener {
     TextView signUpTxt;
     private Boolean resultCheck = new Boolean(true);
+    boolean isPasswordVisible = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,29 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                     String username = editTextUsername.getText().toString().trim();
                     checkUserName(username);
                 }
+            }
+        });
+        ImageView iconEye = findViewById(R.id.icon_eye);
+        iconEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Đảo ngược trạng thái hiện tại của mật khẩu (ẩn thành hiện và ngược lại)
+                isPasswordVisible = !isPasswordVisible;
+                EditText editPassword = (EditText)findViewById(R.id.editPassword);
+
+                // Thay đổi loại dữ liệu đầu vào của EditText
+                if (isPasswordVisible) {
+                    // Nếu mật khẩu đang ẩn, hiển thị văn bản
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    iconEye.setImageResource(R.drawable.icon_eye);
+                } else {
+                    // Nếu mật khẩu đang hiển thị, ẩn văn bản
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    iconEye.setImageResource(R.drawable.icon_eye1);
+                }
+
+                // Di chuyển con trỏ văn bản về cuối chuỗi
+                editPassword.setSelection(editPassword.getText().length());
             }
         });
     }

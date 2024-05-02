@@ -3,8 +3,10 @@ package com.example.project.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private Boolean resultCheck = new Boolean(true);
 
+    boolean isPasswordVisible = false;
+    boolean isPasswordVisible1 = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +126,54 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 currentEmail = currentUser.email;
                 startCountDown();
                 EmailSender.sendOTP(currentEmail, currentOtp, ForgotPasswordActivity.this);
+            }
+        });
+
+        ImageView iconEye = findViewById(R.id.icon_eye);
+        ImageView iconEye1 = findViewById(R.id.icon_eye1);
+        iconEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Đảo ngược trạng thái hiện tại của mật khẩu (ẩn thành hiện và ngược lại)
+                isPasswordVisible = !isPasswordVisible;
+                EditText editPassword = (EditText)findViewById(R.id.editPassword);
+
+                // Thay đổi loại dữ liệu đầu vào của EditText
+                if (isPasswordVisible) {
+                    // Nếu mật khẩu đang ẩn, hiển thị văn bản
+                    iconEye.setImageResource(R.drawable.icon_eye);
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    // Nếu mật khẩu đang hiển thị, ẩn văn bản
+                    iconEye.setImageResource(R.drawable.icon_eye1);
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+
+                // Di chuyển con trỏ văn bản về cuối chuỗi
+                editPassword.setSelection(editPassword.getText().length());
+            }
+        });
+
+        iconEye1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Đảo ngược trạng thái hiện tại của mật khẩu (ẩn thành hiện và ngược lại)
+                isPasswordVisible1 = !isPasswordVisible1;
+                EditText editPassword = (EditText)findViewById(R.id.editConfirmPassword);
+
+                // Thay đổi loại dữ liệu đầu vào của EditText
+                if (isPasswordVisible1) {
+                    // Nếu mật khẩu đang ẩn, hiển thị văn bản
+                    iconEye1.setImageResource(R.drawable.icon_eye);
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    // Nếu mật khẩu đang hiển thị, ẩn văn bản
+                    iconEye1.setImageResource(R.drawable.icon_eye1);
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+
+                // Di chuyển con trỏ văn bản về cuối chuỗi
+                editPassword.setSelection(editPassword.getText().length());
             }
         });
     }
