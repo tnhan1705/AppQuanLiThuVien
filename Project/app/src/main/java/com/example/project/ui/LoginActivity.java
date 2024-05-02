@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
                 loginObject.put("username", editUsername.getText().toString());
                 loginObject.put("password", editPassword.getText().toString());
                 String mess = loginObject.toString();
-
+                Log.d("Client login", "Sending message to server: " + mess);
                 WebSocketClient.getInstance().requestToServer(mess, this);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -82,6 +82,17 @@ public class LoginActivity extends AppCompatActivity implements SocketEventListe
     public void onOrderResponse(boolean result) {
 
     }
+
+    @Override
+    public void onHandlePhieu(boolean result) throws JSONException {
+
+    }
+
+    @Override
+    public void onHandleUpdate(boolean result) throws JSONException {
+
+    }
+
 
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();

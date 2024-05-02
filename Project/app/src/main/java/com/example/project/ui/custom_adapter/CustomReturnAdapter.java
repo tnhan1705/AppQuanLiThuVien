@@ -3,13 +3,13 @@ package com.example.project.ui.custom_adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,28 +28,30 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import android.util.Log;
+
 
 // CustomBookAdapter.java
-public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
+public class CustomReturnAdapter extends ArrayAdapter<Receipt> {
 
     private OnSelectButtonClickListener onSelectButtonClickListener;
-
-
 
     public void setOnSelectButtonClickListener(OnSelectButtonClickListener listener) {
         this.onSelectButtonClickListener = listener;
     }
 
-    public CustomReceiptAdapter(Context context, int resource) {
+    public CustomReturnAdapter(Context context, int resource) {
         super(context, resource);
     }
+
+
 
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_receipt, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_return, parent, false);
         }
 
 
@@ -63,33 +65,31 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
         TextView txtTimeStart = convertView.findViewById(R.id.textTimeStart);
         TextView txtStatus = convertView.findViewById(R.id.textStatus);
 
-        Timestamp now =  new Timestamp(System.currentTimeMillis());
-        txtStatus.setTextColor(receipt.date_return.after(now) ? Color.parseColor("#1DD75B") : Color.parseColor("#DE3B40"));
-        LocalDateTime dateReturnLocalDateTime = receipt.date_return.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime nowLocalDateTime = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        Duration duration = Duration.between(dateReturnLocalDateTime, nowLocalDateTime);
-        long days = Math.abs(duration.toDays());
-        long hours = Math.abs(duration.toHours() % 24);
-        txtStatus.setText((receipt.date_return.after(now) ? "Remain: " : "Expired: ") + (days > 0 ? days + " days" : hours + " hours"));
 
-        txtName.setText(receipt.getBooksByIDs()[0].name);
-        txtAuthorName.setText(receipt.getBooksByIDs()[0].name_author);
-        txtBorrowerName.setText(receipt.first_name + receipt.last_name);
-        txtTimeStart.setText("Start: " + receipt.date_start.toString());
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            txtStatus.setTextColor(receipt.date_return.after(now) ? Color.parseColor("#1DD75B") : Color.parseColor("#DE3B40"));
+            LocalDateTime dateReturnLocalDateTime = receipt.date_return.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime nowLocalDateTime = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            Duration duration = Duration.between(dateReturnLocalDateTime, nowLocalDateTime);
+            long days = Math.abs(duration.toDays());
+            long hours = Math.abs(duration.toHours() % 24);
+            txtStatus.setText((receipt.date_return.after(now) ? "Remain: " : "Expired: ") + (days > 0 ? days + " days" : hours + " hours"));
 
-        Button button = convertView.findViewById(R.id.btnSelect);
+            txtName.setText(receipt.getBooksByIDs()[0].name);
+            txtAuthorName.setText(receipt.getBooksByIDs()[0].name_author);
+            txtBorrowerName.setText(receipt.first_name+" " + receipt.last_name);
+            txtTimeStart.setText("Start: " + receipt.date_start.toString());
 
-        View finalConvertView = convertView;
-//        click  vào hiện detail Receipt
 
+        Button button = convertView.findViewById(R.id.btnSelectReturn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
-                Log.d("Receipt Information", "Receipt Status: " + receipt.getStatus());
-                // Start the new activity
+                Context context = getContext(); // hoặc getContext() trong Fragment
+
                 Intent intent = new Intent(context, DetailReceiptActivity.class);
                 intent.putExtra("receipt", receipt);
+                intent.putExtra("hideCancel", true);
                 context.startActivity(intent);
             }
         });
@@ -103,4 +103,7 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
 
 
 
+
+    public void setOnClickListener(View.OnClickListener hideButtons) {
+    }
 }

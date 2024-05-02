@@ -7,7 +7,9 @@ const LOG_TYPE = Object.freeze({
 const EVENT = Object.freeze({
     LOGIN: "login",
     GET_DATA: "getData",
-    ORDER: "order"
+    ORDER: "order",
+    REMARK :"remark",
+    UPDATE : "update"
 })
 
 // Export the enum for use in other scripts

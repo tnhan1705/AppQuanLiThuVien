@@ -82,6 +82,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_First_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter text here"
@@ -112,6 +113,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_Last_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter text here"
@@ -190,6 +192,7 @@
                     android:textColor="@color/black" />
 
                 <EditText
+                    android:id="@+id/edit_Contact_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter text here"
@@ -240,6 +243,7 @@
                         android:inputType="text" />
 
                     <EditText
+                        android:id="@+id/editContactPhone"
                         android:layout_width="278dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter text here"
@@ -383,7 +387,7 @@
                             android:layout_marginEnd="20dp"/>
 
                         <Button
-                            android:id="@+id/btnSubmit"
+                            android:id="@+id/btnUpdate"
                             android:layout_width="150dp"
                             android:layout_height="70dp"
                             android:fontFamily="@font/inter_regular"
@@ -396,7 +400,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Submit"/>
+                        android:text="Mark Return"/>
 
                 </LinearLayout>
 

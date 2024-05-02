@@ -10,7 +10,7 @@ async function connectToDatabase() {
         connection = await mysql.createConnection({
           host: 'localhost',
           user: 'root',
-          password: '123456',
+          password: 'zed123456@',
           database: 'quanlithuvien',
         });
         console.log('Connected to MySQL database');
@@ -118,5 +118,57 @@ async function order(receipt){
   }
 }
 
+async function updateReceiptStatus( Receipt) {
+  try {
+    // Connect to the database
+    const connection = await connectToDatabase();
+
+    // Query to update the status of the receipt
+    const query = 'UPDATE quanlithuvien.phieu SET status = ? WHERE id = ?';
+    const  {id, status} = Receipt;
+    // Execute the query
+    const [result] = await connection.execute(query, [status, id]);
+
+    // Check if the query was successful
+    if (result.affectedRows === 1) {
+      console.log('Receipt status updated successfully');
+      return true;
+    } else {
+      console.error('Failed to update receipt status');
+      return false;
+    }
+  } catch (error) {
+    console.error('An error occurred while updating receipt status:', error.message);
+    throw error;
+  }
+}
+
+
+async function updateReceipt( Receipt) {
+  try {
+    // Connect to the database
+    const connection = await connectToDatabase();
+
+    // Query to update the status of the receipt
+    const query = 'UPDATE quanlithuvien.phieu SET first_name = ?, last_name = ?, gender = ?, email = ?, phone = ?  WHERE id = ?';
+    const  {id,first_name,last_name,gender,email,phone} = Receipt;
+    // Execute the query
+    const [result] = await connection.execute(query, [first_name,last_name,gender,email,phone, id]);
+
+    // Check if the query was successful
+    if (result.affectedRows === 1) {
+      console.log('Receipt status updated successfully');
+      return true;
+    } else {
+      console.error('Failed to update receipt status');
+      return false;
+    }
+  } catch (error) {
+    console.error('An error occurred while updating receipt status:', error.message);
+    throw error;
+  }
+}
+
+
 // Export the connectToDatabase function
-module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order };
+module.exports = { connectToDatabase, login, getAllBooks, getAllReceipts, order, updateReceiptStatus,updateReceipt};

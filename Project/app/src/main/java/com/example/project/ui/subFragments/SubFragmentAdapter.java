@@ -32,15 +32,18 @@ public class SubFragmentAdapter extends FragmentPagerAdapter {
                     return new FragmentAll();
                 if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
                     return new FragmentBorrowing();
+                break;
             case 1:
                 if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
                     return new FragmentReturned();
+                break;
             case 2:
                 if(modeSubTabs == Constants.MODE_SUB_TABS.NOTE)
                     return new FragmentCanceled();
+                break;
             default:
-                return null;
-        }
+
+        }return null;
     }
 
     @Override

@@ -52,7 +52,10 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
 
         // Get the current Book object
         Book book = getItem(position);
+        
+        System.out.println("55 " + book.id);
         List<Book> books = DataManager.getInstance().getBooksSelect();
+        System.out.println("57  "+books.stream().anyMatch(b -> b.id.equals(book.id)));
         boolean containsBook = books.stream().anyMatch(b -> b.id.equals(book.id));
         if(containsBook && isModeSelect){
             // Đảo ngược trạng thái của mục
@@ -73,6 +76,7 @@ public class CustomBookAdapter extends ArrayAdapter<Book> {
         TextView itemTextView2 = convertView.findViewById(R.id.textSummary);
 
         if (book != null) {
+
             itemTextView.setText(book.name);
             itemTextView1.setText(book.name_author);
             itemTextView2.setText(book.summary);

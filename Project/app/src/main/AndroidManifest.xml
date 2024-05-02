@@ -21,6 +21,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.detail_return"
+            android:exported="false" />
+        <activity
             android:name=".ui.DetailReceiptActivity"
             android:exported="false" />
         <activity

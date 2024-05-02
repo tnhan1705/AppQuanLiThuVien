@@ -18,6 +18,7 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
 
 public class WebSocketClient extends WebSocketListener {
@@ -67,6 +68,14 @@ public class WebSocketClient extends WebSocketListener {
                 break;
             case Constants.EVENT_ORDER:
                 _listener.onOrderResponse(Boolean.parseBoolean((String) data.get("result")));
+                break;
+            case Constants.EVENT_REMARK:
+                _listener.onHandlePhieu(Boolean.parseBoolean((String) data.get("result")));
+                Log.d("TAGRemark", "Evencancel: " +(String) data.get("result"));
+                break;
+            case Constants.EVENT_UPDATE:
+                _listener. onHandleUpdate(Boolean.parseBoolean((String) data.get("result")));
+                Log.d("Update", "Event Update: " +(String) data.get("result"));
                 break;
             default:
                 break;
@@ -131,6 +140,8 @@ public class WebSocketClient extends WebSocketListener {
             System.out.println("Response: " + response.toString());
         }
     }
+
+
 
     //endregion
 }
