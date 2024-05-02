@@ -217,7 +217,7 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
                 TextView edit_region_number = findViewById(R.id.edit_region_number);
                 edit_region_number.setText("+" + receipt.phone.substring(1, 3));
 
-                TextView edit_phone = findViewById(R.id.edit_phone);
+                TextView edit_phone = findViewById(R.id.editContactPhone);
                 edit_phone.setText(receipt.phone.substring(3));
 
                 editDateFrom = findViewById(R.id.editDateFrom);
@@ -343,6 +343,11 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
 
     @Override
     public void onOrderResponse(boolean result) throws JSONException {
+
+    }
+
+    @Override
+    public void onAddBookResponse(boolean result) throws JSONException {
 
     }
 

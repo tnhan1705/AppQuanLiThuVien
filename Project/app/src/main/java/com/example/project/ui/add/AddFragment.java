@@ -327,6 +327,16 @@ public class AddFragment extends Fragment implements SocketEventListener {
         }
     }
 
+    @Override
+    public void onHandlePhieu(boolean result) throws JSONException {
+
+    }
+
+    @Override
+    public void onHandleUpdate(boolean result) throws JSONException {
+
+    }
+
 
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();
