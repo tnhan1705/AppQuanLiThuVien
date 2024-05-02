@@ -35,34 +35,32 @@ wss.on('connection', (ws) => {
                 case EVENT.ADD_BOOK:
                     handleAddBook(ws, data.receipt, data.username)
                     break;
-                    case EVENT.REMARK:  
-          console.log('Received REMARK event with status:' + EVENT.REMARK );
-          if (data.receipt && data.username) {
-            console.log('Received REMARK event with status:');
-            handleReceipt(ws, data.receipt, data.username);
-          } else {
-            console.error('Invalid data received for REMARK event');
-            // Gửi thông báo lỗi trở lại cho client
-            ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'error', message: 'Invalid data received' }));
-          }
-          break; 
-        case EVENT.UPDATE:
-          console.log('Received REMARK event with status:' + EVENT.UPDATE );
-          if (data.receipt && data.username) {
-    
-              console.log('Received REMARK event with status:');
-              handleUpdateReceipt(ws, data.receipt, data.username);
-            } else {
-              console.error('Invalid data received for Update event');
-              // Gửi thông báo lỗi trở lại cho client
-              ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'error', message: 'Invalid data received' }));
-            }
-            break;
+                case EVENT.REMARK:  
+                    console.log('Received REMARK event with status:' + data.recept + data.username);
+                    if (data.receipt && data.username) {
+                      console.log('Received REMARK event with status:');
+                      handleReceipt(ws, data.receipt, data.username);
+                    } else {
+                      console.error('Invalid data received for REMARK event');
+                      // Gửi thông báo lỗi trở lại cho client
+                      ws.send(JSON.stringify({ event: EVENT.REMARK, result: 'error', message: 'Invalid data received' }));
+                    }
+                    break; 
+                case EVENT.UPDATE:
+                    console.log('Received REMARK event with status:' + EVENT.UPDATE );
+                    if (data.receipt && data.username) {
+                      console.log('Received REMARK event with status:');
+                      handleUpdateReceipt(ws, data.receipt, data.username);
+                    } else {
+                      console.error('Invalid data received for Update event');
+                      // Gửi thông báo lỗi trở lại cho client
+                      ws.send(JSON.stringify({ event: EVENT.UPDATE, result: 'error', message: 'Invalid data received' }));
+                    }
+                    break;
                 default:
                     console.log(LOG_TYPE.ERROR + `Unhandled event: ${data.event}`);
-            }
-
-
+                    break;
+              }
         } catch (error) {
             console.error('Error parsing message:', error.message);
         }
@@ -169,7 +167,7 @@ async function handleAddBook(ws, receipt, username){
     receipt = JSON.parse(receipt);
     const rsOrder = await addBook(receipt);
     ws.send(JSON.stringify({ event: EVENT.ADD_BOOK, result: rsOrder.toString() }));
-  } catch (error) {
+  } catch (error) { 
     console.error('Error during add book:', error.message);
     ws.send(JSON.stringify({ event: EVENT.ADD_BOOK, result: 'false' }));
   }

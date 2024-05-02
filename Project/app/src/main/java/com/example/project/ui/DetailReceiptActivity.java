@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project.DataManager;
 import com.example.project.R;
@@ -32,18 +30,14 @@ import com.example.project.entities.Receipt;
 import com.example.project.network.SocketEventListener;
 import com.example.project.network.WebSocketClient;
 import com.example.project.ui.custom_adapter.CustomReceiptAdapter;
-import com.example.project.ui.subFragments.FragmentBorrowing;
 import com.example.project.utils.Constants;
-import com.example.project.utils.CreateService;
 import com.example.project.utils.LoadingDialog;
 import com.example.project.utils.PopupUtils;
 import com.example.project.utils.UIService;
 import com.google.gson.Gson;
 import android.util.Log;
-import java.sql.Timestamp;
+
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import android.view.LayoutInflater;
 
@@ -51,10 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import android.view.View;
-import android.widget.Button;
-
 
 
 public class DetailReceiptActivity extends AppCompatActivity implements  SocketEventListener {
@@ -64,64 +54,27 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
 
     CustomReceiptAdapter  adapter ;
 
-
-
     ListView listView;
     View view;
-     Receipt receipt = null;
+    Receipt receipt = null;
     private Context FragmentReturned;
 
     public DetailReceiptActivity() {
 
     }
 
-    @SuppressLint({"RestrictedApi", "MissingInflatedId"})
+    @SuppressLint({"RestrictedApi", "MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIService.HideStatusBar(this, this);
         setContentView(R.layout.activity_detail_receipt);
 
+        Gson gson = new Gson();
 
-//        Log.d("FragmentLifecycle", "Fra
         Intent intent = getIntent();
-
-        Receipt receipts = (Receipt) intent.getSerializableExtra("receipt");
-
-        // Hiển thị dữ liệu của Receipt lên EditText
-        EditText editTextFirstName = findViewById(R.id.edit_First_Name);
-        EditText editTextLastName = findViewById(R.id.edit_Last_Name);
-        RadioButton radioButtonMale = findViewById(R.id.maleRadioButton);
-        RadioButton radioButtonFemale = findViewById(R.id.femaleRadioButton);
-        RadioButton radioButtonNonBinary = findViewById(R.id.nonBinaryRadioButton);
-        EditText editTContactEmail = findViewById(R.id.edit_Contact_Email);
-        EditText editContactPhone = findViewById(R.id.editContactPhone);
-        EditText editDateForm = findViewById(R.id.editDateFrom);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String startDate = dateFormat.format(receipts.getDate_start());
-        EditText editDateTo = findViewById(R.id.editDateTo);
-        SimpleDateFormat dateTo = new SimpleDateFormat("dd/MM/yyyy");
-        String ReturnDate = dateFormat.format(receipts.getDate_return());
-
-            editTextFirstName.setText(receipts.getFirst_name());
-            editTextLastName.setText(receipts.getLast_name());
-            editTContactEmail.setText(receipts.getEmail());
-            editContactPhone.setText(receipts.getPhone());
-            editDateForm.setText( startDate);
-            editDateTo.setText( ReturnDate);
-
-
-            String gender = receipts.getGender();
-
-            if (gender.equals("Male")) {
-                radioButtonMale.setChecked(true);
-            } else if (gender.equals("Female")) {
-                radioButtonFemale.setChecked(true);
-            } else {
-                radioButtonNonBinary.setChecked(true);
-            }
-
-
+        String json = intent.getStringExtra("receipt");
+        receipt = gson.fromJson(json, Receipt.class);
 
         ImageButton btnback = findViewById(R.id.btnBack);
         btnback.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +84,9 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
             }
         });
 
-        // Nhận Intent từ hoạt động trước
-
         Button btnCancel = findViewById(R.id.btnCancel);
-        Button btnsubmit = findViewById(R.id.btnUpdate);
-        Button  btnRemark = findViewById(R.id.btnMarkReturn);
+        Button btn_update = findViewById(R.id.btnUpdate);
+        Button btnRemark = findViewById(R.id.btnMarkReturn);
 
         // Kiểm tra Intent có chứa extra "hideCancel" không
         boolean hideCancel = getIntent().getBooleanExtra("hideCancel", false);
@@ -144,15 +95,12 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         if (hideCancel) {
             // Ẩn btnCancel nếu cần
             btnCancel.setVisibility(View.GONE);
-            btnsubmit.setVisibility(View.GONE);
+            btn_update.setVisibility(View.GONE);
             btnRemark.setVisibility(View.GONE);
-
         }
 
         LinearLayout container = findViewById(R.id.container_items_book);
         LayoutInflater inflater = LayoutInflater.from(this); // Tạo LayoutInflater
-// hiện  các sach có cùng id
-        Button btn_update = findViewById(R.id.btnUpdate);
 
         btn_update.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -168,9 +116,6 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
 
         // Kiểm tra xem Intent có dữ liệu không
         if (intent.hasExtra("receipt")) {
-            Gson gson = new Gson();
-            String json = intent.getStringExtra("receipt");
-            Receipt receipt = gson.fromJson(json, Receipt.class);
             Book[] books = receipt.getBooksByIDs();
             Log.d("Receipt Information", "Receipt Status: " + receipt.getStatus());
 
@@ -198,10 +143,10 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
                 // Thêm itemView vào LinearLayout
                 container.addView(itemView);
 
-                EditText edit_first_name = findViewById(R.id.edit_first_name);
+                EditText edit_first_name = findViewById(R.id.edit_First_Name);
                 edit_first_name.setText(receipt.first_name);
 
-                EditText edit_last_name = findViewById(R.id.edit_last_name);
+                EditText edit_last_name = findViewById(R.id.edit_Last_Name);
                 edit_last_name.setText(receipt.last_name);
 
                 RadioButton maleRadioButton = findViewById(R.id.maleRadioButton);
@@ -211,14 +156,14 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
                 RadioButton nonBinaryRadioButton = findViewById(R.id.nonBinaryRadioButton);
                 nonBinaryRadioButton.setChecked(receipt.gender.equals(nonBinaryRadioButton.getText()));
 
-                TextView edit_email = findViewById(R.id.edit_email);
+                TextView edit_email = findViewById(R.id.edit_Contact_Email);
                 edit_email.setText(receipt.email);
 
                 TextView edit_region_number = findViewById(R.id.edit_region_number);
-                edit_region_number.setText("+" + receipt.phone.substring(1, 3));
+                edit_region_number.setText("+" + (!receipt.phone.isEmpty() ? receipt.phone.substring(1, 3) : ""));
 
                 TextView edit_phone = findViewById(R.id.editContactPhone);
-                edit_phone.setText(receipt.phone.substring(3));
+                edit_phone.setText(!receipt.phone.isEmpty() ? receipt.phone.substring(3) : "");
 
                 editDateFrom = findViewById(R.id.editDateFrom);
                 editDateFrom.setEnabled(false);
@@ -229,7 +174,6 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
                 editDateTo.setText(receipt.date_return.toString());
             }
         }
-
 
         ImageView btnCalendar = findViewById(R.id.btnDateTo);
         btnCalendar.setOnClickListener(new View.OnClickListener() {
@@ -242,19 +186,13 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         findViewById(R.id.btnMarkReturn).setOnClickListener(view -> {
             // Hiển thị loading dialog để biểu thị rằng yêu cầu đang được xử lý
             LoadingDialog.getInstance(this).show();
-            Gson gson = new Gson();
-            Receipt receipt = new Receipt();
-            receipt.status = "Return";
-            receipt.id = receipts.getId();
-            this.receipt = receipt;
-            System.out.println("187  "+ this.receipt.getStatus());
-
+            Receipt newReceipt = this.receipt;
+            newReceipt.status = "Return";
 
             // Tạo một đối tượng JSONObject để chứa dữ liệu yêu cầu
             JSONObject remarkObject = new JSONObject();
             try {
                 // Thêm các trường dữ liệu vào JSONObject
-
                 remarkObject.put("event", Constants.EVENT_REMARK); // Xác định sự kiện
                 remarkObject.put("receipt", gson.toJson(this.receipt));
                 remarkObject.put("username", DataManager.getInstance().username);
@@ -274,11 +212,10 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         findViewById(R.id.btnCancel).setOnClickListener(view -> {
             // Hiển thị loading dialog để biểu thị rằng yêu cầu đang được xử lý
             LoadingDialog.getInstance(this).show();
-            Gson gson = new Gson();
-            Receipt receipt = new Receipt();
-            receipt.status = "Cancel";
-            receipt.id = receipts.getId();
-            this.receipt = receipt;
+            Receipt newReceipt = new Receipt();
+            newReceipt.status = "Cancel";
+            newReceipt.id = newReceipt.getId();
+            this.receipt = newReceipt;
             System.out.println("187  "+ this.receipt.getStatus());
 
             // Tạo một đối tượng JSONObject để chứa dữ liệu yêu cầu
@@ -287,7 +224,7 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
                 // Thêm các trường dữ liệu vào JSONObject
 
                 remarkObject.put("event", Constants.EVENT_REMARK); // Xác định sự kiện
-                remarkObject.put("receipt", gson.toJson(receipt));
+                remarkObject.put("receipt", gson.toJson(newReceipt));
                 remarkObject.put("username", DataManager.getInstance().username);
 
                 // Chuyển đổi JSONObject thành chuỗi JSON
@@ -339,8 +276,6 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         LoadingDialog.getInstance(this).hide();
     }
 
-
-
     @Override
     public void onOrderResponse(boolean result) throws JSONException {
 
@@ -373,44 +308,43 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         }
     }
 
-
-
     public void onClickUpdate() throws ParseException {
         LoadingDialog.getInstance(this).show();
+        Gson gson = new Gson();
         Log.e("Update click", "ParseException occurred");
         Intent intent = getIntent();
-        Receipt receipts = (Receipt) intent.getSerializableExtra("receipt");
-        Gson gson = new Gson();
+        String json = intent.getStringExtra("receipt");
+        Receipt receipt = gson.fromJson(json, Receipt.class);
 
-        Receipt receipt = new Receipt();
+        Receipt newReceipt = new Receipt();
 
         EditText edit_first_name = findViewById(R.id.edit_First_Name);
-        receipt.first_name = edit_first_name.getText().toString();
+        newReceipt.first_name = edit_first_name.getText().toString();
 
         EditText edit_last_name = findViewById(R.id.edit_Last_Name);
-        receipt.last_name = edit_last_name.getText().toString();
+        newReceipt.last_name = edit_last_name.getText().toString();
 
         RadioGroup genderRadioGroup = findViewById(R.id.genderRadioGroup);
         int selectedId = genderRadioGroup.getCheckedRadioButtonId();
         RadioButton selectedRadioButton = findViewById(selectedId);
         String selectedGender = selectedRadioButton.getText().toString();
-        receipt.gender = selectedGender;
+        newReceipt.gender = selectedGender;
 
         EditText edit_email = findViewById(R.id.edit_Contact_Email);
-        receipt.email = edit_email.getText().toString();
+        newReceipt.email = edit_email.getText().toString();
 
         EditText edit_phone1 = findViewById(R.id.editContactPhone);
 
-        receipt.phone = edit_phone1.getText().toString()  ;
+        newReceipt.phone = edit_phone1.getText().toString()  ;
 
-        receipt.id = receipts.getId();
+        newReceipt.id = receipt.getId();
 
-        this.receipt = receipt;
+        this.receipt = newReceipt;
 
         JSONObject loginObject = new JSONObject();
         try {
             loginObject.put("event", Constants.EVENT_UPDATE);
-            loginObject.put("receipt", gson.toJson(receipt));
+            loginObject.put("receipt", gson.toJson(newReceipt));
             loginObject.put("username", DataManager.getInstance().username);
             String mess = loginObject.toString();
             Log.d("Client", "Sending message to server: " + Constants.EVENT_UPDATE);
@@ -444,8 +378,6 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
             LoadingDialog.getInstance(this).hide();
         }
     }
-  
-
 
     void GetAllData() throws JSONException {
         JSONObject loginObject = new JSONObject();
@@ -454,11 +386,4 @@ public class DetailReceiptActivity extends AppCompatActivity implements  SocketE
         String mess = loginObject.toString();
         WebSocketClient.getInstance().requestToServer(mess, this);
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        // Thêm mã xử lý nếu cần thiết
-    }
-
-
 }

@@ -57,7 +57,6 @@ public class CustomReceiptAdapter extends ArrayAdapter<Receipt> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_receipt, parent, false);
         }
 
-
         // Get the current Book object
         Receipt receipt = getItem(position);
 
